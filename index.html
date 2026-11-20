@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GROOMTRACK — Sadar Batas, Kenali Pola & Lindungi Diri</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .fade-in { animation: fadeIn 0.3s ease-out both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes floatOllie { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-6px) rotate(2deg); } }
+    @keyframes blinkEyes { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+    @keyframes twinkle { 0%, 100% { opacity: 0.25; transform: scale(0.85); } 50% { opacity: 1; transform: scale(1.2); } }
+    .ollie-float { animation: floatOllie 3.2s ease-in-out infinite; }
+    .ollie-eye { transform-origin: center; animation: blinkEyes 4.5s infinite; }
+    .star-twinkle { animation: twinkle 2s ease-in-out infinite; }
+    .card-hover { transition: transform 0.22s ease, box-shadow 0.22s ease; }
+    .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 24px -8px rgba(79, 70, 229, 0.16); }
+    .tab-active { background: linear-gradient(135deg, #4f46e5, #6366f1); color: #fff; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.28); }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-indigo-50/30 to-teal-50/30 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- STICKY SAFETY BAR (QUICK HIDE & STOP SAFELY) -->
+  <div id="safety-bar" class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur text-white px-4 py-2 shadow-md border-b border-slate-700">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="font-medium text-slate-200">Perlindungan Layar Cepat <span class="hidden md:inline text-slate-400">(Tekan <kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-600 text-xs">Esc</kbd> untuk menyamarkan)</span></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="toggleQuickHide(true)" class="bg-amber-400 hover:bg-amber-500 text-slate-950 font-extrabold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+          <span>👁️‍🗨️</span> Quick Hide
+        </button>
+        <button onclick="stopSafely()" class="bg-rose-600 hover:bg-rose-700 text-white font-extrabold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+          <span>🚪</span> Stop Safely
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- KAMUFLASE SCREEN (QUICK HIDE OVERLAY) -->
+  <div id="camouflage-screen" class="hidden fixed inset-0 z-[100] bg-white overflow-y-auto p-6 sm:p-12">
+    <div class="max-w-3xl mx-auto">
+      <div class="flex items-center justify-between border-b pb-4 mb-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded">Catatan Belajar SMP • Kelas VIII</span>
+          <h1 class="text-2xl font-bold text-slate-900 mt-2">Rangkuman Rumus Bangun Ruang Sisi Datar</h1>
+        </div>
+        <span class="text-sm text-slate-400">Matematika Semester 2</span>
+      </div>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <div class="p-4 bg-slate-50 rounded-xl border">
+          <h2 class="font-bold text-slate-900 mb-1">1. Kubus</h2>
+          <p class="text-sm">Kubus memiliki 6 sisi berbentuk persegi yang kongruen, 12 rusuk sama panjang, dan 8 titik sudut.</p>
+          <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+            <li>Luas Permukaan Kubus = 6 × s²</li>
+            <li>Volume Kubus = s × s × s = s³</li>
+            <li>Panjang Diagonal Bidang = s√2</li>
+          </ul>
+        </div>
+        <div class="p-4 bg-slate-50 rounded-xl border">
+          <h2 class="font-bold text-slate-900 mb-1">2. Balok</h2>
+          <p class="text-sm">Balok memiliki 3 pasang sisi berhadapan yang sejajar dan sama luas.</p>
+          <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+            <li>Luas Permukaan Balok = 2 × (pl + pt + lt)</li>
+            <li>Volume Balok = p × l × t</li>
+          </ul>
+        </div>
+        <div class="p-4 bg-slate-50 rounded-xl border">
+          <h2 class="font-bold text-slate-900 mb-1">3. Prisma Tegak</h2>
+          <p class="text-sm">Volume Prisma = Luas Alas × Tinggi Prisma | Luas Permukaan = (2 × Luas Alas) + (Keliling Alas × Tinggi).</p>
+        </div>
+      </div>
+      <div class="mt-12 pt-4 border-t flex justify-between items-center text-xs text-slate-400">
+        <span>Disimpan untuk persiapan ujian harian.</span>
+        <button onclick="toggleQuickHide(false)" class="text-slate-400 hover:text-indigo-600 underline cursor-pointer">Kembali ke GROOMTRACK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH SCREEN (DAFTAR & MASUK) -->
+  <div id="auth-screen" class="flex-1 flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden fade-in">
+      <div class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-teal-600 p-6 text-white text-center">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm text-3xl mb-3 shadow-inner">🦉</div>
+        <h1 class="text-2xl font-extrabold tracking-tight text-white">GROOMTRACK</h1>
+        <p class="text-teal-100 text-[11px] font-bold tracking-wider uppercase mt-1">Grooming Pattern Tracking and Recognition</p>
+        <p class="text-indigo-100 text-xs mt-1">Program Pencegahan Child Grooming Online & Offline (3R)</p>
+      </div>
+
+      <div class="p-6">
+        <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl mb-6">
+          <button id="btn-tab-login" onclick="switchAuthTab('login')" class="py-2 text-sm font-bold rounded-lg bg-white text-indigo-600 shadow-sm transition cursor-pointer">Masuk</button>
+          <button id="btn-tab-register" onclick="switchAuthTab('register')" class="py-2 text-sm font-bold rounded-lg text-slate-500 hover:text-slate-700 transition cursor-pointer">Daftar Baru</button>
+        </div>
+
+        <!-- FORM MASUK -->
+        <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kode Peserta</label>
+            <input type="text" id="login-code" required placeholder="Contoh: SMP5-001" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+            <input type="password" id="login-password" required placeholder="Masukkan kata sandi" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-sm" />
+          </div>
+          <p id="login-error" class="hidden text-xs text-rose-600 font-medium bg-rose-50 p-2.5 rounded-lg"></p>
+          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-md shadow-indigo-200 transition cursor-pointer">MASUK KE GROOMTRACK</button>
+          <div class="pt-2 border-t text-center">
+            <button type="button" onclick="loginDemoAccount()" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 underline cursor-pointer">⚡ Demo Akun Cepat (SMP5-001)</button>
+          </div>
+        </form>
+
+        <!-- FORM DAFTAR -->
+        <form id="form-register" onsubmit="handleRegister(event)" class="hidden space-y-3.5">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kode Peserta <span class="text-rose-500">*</span></label>
+            <input type="text" id="reg-code" required placeholder="Contoh: SMP5-012" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Sapaan / Panggilan Kamu <span class="text-slate-400 font-normal">(Opsional)</span></label>
+            <input type="text" id="reg-nickname" placeholder="Boleh dikosongkan" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password / Buat Kata Sandi <span class="text-rose-500">*</span></label>
+            <input type="password" id="reg-password" required placeholder="Buat kata sandi" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Konfirmasi Password <span class="text-rose-500">*</span></label>
+            <input type="password" id="reg-confirm" required placeholder="Ulangi kata sandi" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-sm" />
+          </div>
+          <p id="reg-error" class="hidden text-xs text-rose-600 font-medium bg-rose-50 p-2.5 rounded-lg"></p>
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md shadow-emerald-200 transition cursor-pointer">DAFTAR & MULAI BELAJAR</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP SCREEN -->
+  <div id="main-app" class="hidden flex-1 flex flex-col">
+    <!-- NAVBAR -->
+    <header class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-[44px] sm:top-[48px] z-40">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-teal-500 text-white flex items-center justify-center font-extrabold text-xl shadow-sm">🛡️</div>
+          <div>
+            <span class="font-extrabold text-slate-900 tracking-tight text-base sm:text-lg block leading-tight">GROOMTRACK</span>
+            <p class="text-[11px] text-slate-500 leading-none">Halo, <strong id="user-display-name" class="text-indigo-600">Teman Hebat</strong> (<span id="user-display-code"></span>)</p>
+          </div>
+        </div>
+
+        <nav class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+          <button onclick="switchMainTab('modul')" id="nav-modul" class="tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer">📚 Modul 3R</button>
+          <button onclick="switchMainTab('cerita')" id="nav-cerita" class="bg-slate-100 text-slate-600 hover:bg-slate-200 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer">💬 Ruang Cerita</button>
+          <button onclick="switchMainTab('jurnal')" id="nav-jurnal" class="bg-slate-100 text-slate-600 hover:bg-slate-200 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer">📔 Jurnalku</button>
+          <button onclick="switchMainTab('bantuan')" id="nav-bantuan" class="bg-rose-50 text-rose-700 hover:bg-rose-100 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer">🆘 Bantuan</button>
+          <button onclick="logoutUser()" class="ml-1 text-xs text-slate-400 hover:text-rose-600 px-2 py-2 font-semibold cursor-pointer" title="Keluar Akun">Keluar</button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- CONTENT CONTAINER -->
+    <main class="max-w-5xl w-full mx-auto px-4 py-6 flex-1">
+
+      <!-- XP PROGRESS BAR -->
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">⭐</span>
+          <div>
+            <div class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Level Pelindung Diri</div>
+            <div id="xp-level-label" class="text-sm font-bold text-slate-800">Penjelajah Awal (0 / 300 XP)</div>
+          </div>
+        </div>
+        <div class="w-full sm:w-64 bg-slate-100 h-3 rounded-full overflow-hidden border border-slate-200">
+          <div id="xp-progress-bar" class="bg-gradient-to-r from-indigo-600 to-teal-500 h-full rounded-full transition-all duration-500" style="width: 10%;"></div>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 1: MODUL 3R ==================== -->
+      <section id="view-modul" class="space-y-6 fade-in">
+        <!-- Stage Stepper -->
+        <div class="grid grid-cols-3 gap-2 sm:gap-4 bg-white p-3 rounded-2xl shadow-sm border border-slate-200">
+          <button onclick="selectStage(1)" id="step-btn-1" class="p-3 rounded-xl text-left border-2 border-indigo-600 bg-indigo-50 transition cursor-pointer">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase text-indigo-600">Tahap 1</span>
+              <span id="badge-stage-1" class="text-xs font-bold text-indigo-700">Aktif</span>
+            </div>
+            <div class="font-extrabold text-slate-900 text-sm sm:text-base mt-0.5">1. Realize</div>
+            <div class="text-[11px] text-slate-500 hidden sm:block">Sadar Batas & Bahaya</div>
+          </button>
+
+          <button onclick="selectStage(2)" id="step-btn-2" class="p-3 rounded-xl text-left border-2 border-slate-200 bg-slate-50 opacity-75 transition cursor-pointer">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase text-slate-500">Tahap 2</span>
+              <span id="badge-stage-2" class="text-xs font-bold text-slate-400">🔒 Terkunci</span>
+            </div>
+            <div class="font-extrabold text-slate-900 text-sm sm:text-base mt-0.5">2. Recognize</div>
+            <div class="text-[11px] text-slate-500 hidden sm:block">Kenali Pola 5D & Rambu</div>
+          </button>
+
+          <button onclick="selectStage(3)" id="step-btn-3" class="p-3 rounded-xl text-left border-2 border-slate-200 bg-slate-50 opacity-75 transition cursor-pointer">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase text-slate-500">Tahap 3</span>
+              <span id="badge-stage-3" class="text-xs font-bold text-slate-400">🔒 Terkunci</span>
+            </div>
+            <div class="font-extrabold text-slate-900 text-sm sm:text-base mt-0.5">3. Respond</div>
+            <div class="text-[11px] text-slate-500 hidden sm:block">Jurus 4T & Kartu Aman</div>
+          </button>
+        </div>
+
+        <!-- STAGE 1: REALIZE -->
+        <div id="stage-1-content" class="space-y-6">
+          <!-- Bagian 1: Berita -->
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 card-hover">
+            <span class="inline-block px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-extrabold mb-3">Bagian 1 • Studi Kasus Nyata</span>
+            <h2 class="text-xl font-extrabold text-slate-900">Pilu Siswi SMP di Sukabumi Jadi Korban Dugaan <em>Child Grooming</em></h2>
+            <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+              Seorang siswi kelas IX SMP di Kota Sukabumi menjadi korban dugaan <em>child grooming</em> atau eksploitasi anak secara daring. Pelaku yang berusia 21 tahun awalnya berkenalan dan membangun kedekatan melalui media sosial dengan mengaku sebagai senior di kegiatan ekstrakurikuler Pramuka. Setelah korban merasa percaya dan dekat, pelaku memanipulasi korban hingga mendapatkan foto dan video pribadi korban, lalu menyebarkannya ke media sosial, teman-teman korban, hingga ke nomor ponsel ibu korban.
+            </p>
+            <div class="mt-4 p-4 bg-rose-50/70 rounded-xl border border-rose-100">
+              <h3 class="text-xs font-extrabold uppercase text-rose-800 mb-2">Akibat yang Dialami Korban:</h3>
+              <ul class="text-sm text-slate-700 space-y-1.5 list-disc list-inside">
+                <li><strong>Trauma Psikologis:</strong> Korban mengalami tekanan mental dan trauma berat sehingga membutuhkan pendampingan psikologis dari unit perlindungan anak.</li>
+                <li><strong>Pendidikan Terhenti Sementara:</strong> Penyebaran konten pribadi terjadi saat korban mengikuti Tes Kemampuan Akademik (TKA), sehingga korban terpaksa berhenti bersekolah sementara waktu.</li>
+                <li><strong>Hilangnya Privasi & Rasa Aman:</strong> Foto dan video pribadi korban tersebar luas tanpa izin hingga ke lingkungan keluarga dan teman sekolah.</li>
+              </ul>
+            </div>
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <a href="https://www.detik.com/jabar/berita/d-8463802/pilu-siswi-smp-di-sukabumi-jadi-korban-dugaan-child-grooming" target="_blank" rel="noopener noreferrer" class="text-indigo-600 font-bold hover:underline">🔗 Baca Sumber Berita: detikJabar (27 April 2026) ↗</a>
+              <span class="text-slate-400">Ancaman grooming sering dimulai dari perkenalan yang tampak ramah.</span>
+            </div>
+          </div>
+
+          <!-- Bagian 2: Video Lokal & Kartu Lirik Berilustrasi -->
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 card-hover">
+            <span class="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-extrabold mb-3">Bagian 2 • Lagu Pengingat & Bedah Lirik Utuh</span>
+            <h2 class="text-xl font-extrabold text-slate-900 mb-3">Lagu Pengingat Batas Diri: "Ini Area Privasiku"</h2>
+
+            <!-- Video Player (Muncul otomatis saat video.mp4 tersedia di folder deploy) -->
+            <div id="video-wrapper" class="hidden max-w-2xl mx-auto rounded-2xl overflow-hidden bg-slate-900 shadow-md mb-5">
+              <video id="lesson-video" class="w-full aspect-video" controls playsinline preload="metadata"></video>
+            </div>
+
+            <!-- Kartu Lirik Berilustrasi (Selalu tampil rapi & cerah di semua perangkat) -->
+            <div class="bg-gradient-to-br from-indigo-50 via-purple-50/60 to-teal-50 rounded-2xl p-5 border border-indigo-100 mb-5">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="text-xl">🎵</span>
+                  <span class="font-extrabold text-indigo-950 text-sm">Lirik Lagu "Ini Area Privasiku"</span>
+                </div>
+                <a href="https://youtu.be/E5FrDD6B2R8" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 bg-white px-3 py-1.5 rounded-lg border border-indigo-200 shadow-xs transition">
+                  ▶ Tonton Video Gerakan di YouTube ↗
+                </a>
+              </div>
+              <div class="grid sm:grid-cols-2 gap-3 text-sm">
+                <div class="bg-white/90 p-3.5 rounded-xl border border-indigo-100 shadow-xs">
+                  <span class="text-[10px] font-extrabold uppercase text-indigo-500 block mb-1">Bait 1 • Kepemilikan Diri</span>
+                  <p class="font-bold text-slate-800 italic">"Ini area privasiku, privasiku, privasiku. Ini adalah privasiku."</p>
+                </div>
+                <div class="bg-white/90 p-3.5 rounded-xl border border-amber-100 shadow-xs">
+                  <span class="text-[10px] font-extrabold uppercase text-amber-600 block mb-1">Bait 2 • Batas Tegas</span>
+                  <p class="font-bold text-slate-800 italic">"Jangan kamu lihat, jangan kamu sentuh, jangan kamu pegang."</p>
+                </div>
+                <div class="bg-white/90 p-3.5 rounded-xl border border-rose-100 shadow-xs">
+                  <span class="text-[10px] font-extrabold uppercase text-rose-600 block mb-1">Bait 3 • Sinyal Bahaya</span>
+                  <p class="font-bold text-slate-800 italic">"Kalau kamu melihatnya, menyentuhnya, memegangnya."</p>
+                </div>
+                <div class="bg-white/90 p-3.5 rounded-xl border border-emerald-100 shadow-xs">
+                  <span class="text-[10px] font-extrabold uppercase text-emerald-600 block mb-1">Bait 4 • Lingkaran Aman</span>
+                  <p class="font-bold text-slate-800 italic">"Kalau kamu melihatnya, aku bilang Ibuku, aku bilang Ayahku, aku bilang Guruku."</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bedah Lirik Offline vs Online (Responsif Kartu di HP & Tabel di Desktop) -->
+            <div class="hidden md:block overflow-x-auto">
+              <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-800">
+                    <th class="p-3 rounded-tl-xl font-bold border-b">Bait Lirik Lagu Utuh</th>
+                    <th class="p-3 font-bold border-b">Makna di Dunia Nyata (Offline)</th>
+                    <th class="p-3 rounded-tr-xl font-bold border-b">Makna di Dunia Maya (Online)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-slate-700">
+                  <tr>
+                    <td class="p-3 font-semibold text-indigo-900 bg-indigo-50/40">"Ini area privasiku, privasiku, privasiku. Ini adalah privasiku."</td>
+                    <td class="p-3">Tubuh dan bagian pribadi tubuh adalah milikmu sepenuhnya sehingga orang lain tidak boleh melanggarnya.</td>
+                    <td class="p-3">Privasi digital (foto pribadi, kondisi kamar, alamat rumah, jadwal sekolah, dan kata sandi) adalah hak pribadimu yang wajib dijaga.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-3 font-semibold text-indigo-900 bg-indigo-50/40">"Jangan kamu lihat, jangan kamu sentuh, jangan kamu pegang."</td>
+                    <td class="p-3">Kamu memiliki batas fisik yang tegas. Orang lain dilarang melihat, menyentuh, atau melakukan kontak fisik tanpa izin.</td>
+                    <td class="p-3">Kenalan daring dilarang meminta foto atau video pribadi, mengatur privasimu, maupun mengajak bertemu berdua di tempat sepi tanpa izin orang tua.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-3 font-semibold text-indigo-900 bg-indigo-50/40">"Kalau kamu melihatnya, menyentuhnya, memegangnya."</td>
+                    <td class="p-3">Sinyal bahaya! Jika seseorang mulai melewati batas fisik atau membuatmu tidak nyaman, kondisi tersebut harus segera dihentikan.</td>
+                    <td class="p-3">Jika di ruang obrolan mulai muncul permintaan foto pribadi, paksaan, atau ancaman, tanda bahaya sudah menyala dan perlu segera ditindaklanjuti.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-3 font-semibold text-indigo-900 bg-indigo-50/40">"Kalau kamu melihatnya, aku bilang Ibuku, aku bilang Ayahku, aku bilang Guruku."</td>
+                    <td class="p-3">Jangan memendam kejadian sendirian. Orang tua dan guru merupakan lingkaran aman yang siap melindungi kamu.</td>
+                    <td class="p-3">Jangan merahasiakan obrolan yang membuat tidak nyaman. Segera ceritakan kepada Ibu, Ayah, Guru BK, atau orang dewasa yang kamu percaya.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Tampilan Mobile Bedah Lirik -->
+            <div class="md:hidden space-y-3 text-xs">
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <p class="font-bold text-indigo-800">"Ini area privasiku, privasiku, privasiku. Ini adalah privasiku."</p>
+                <p><strong>Offline:</strong> Tubuh dan bagian pribadi tubuh adalah milikmu sepenuhnya.</p>
+                <p><strong>Online:</strong> Foto pribadi, kondisi kamar, alamat rumah, jadwal sekolah, dan kata sandi wajib dijaga.</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <p class="font-bold text-indigo-800">"Jangan kamu lihat, jangan kamu sentuh, jangan kamu pegang."</p>
+                <p><strong>Offline:</strong> Orang lain dilarang melihat atau menyentuh tanpa izin.</p>
+                <p><strong>Online:</strong> Kenalan daring dilarang meminta foto/video pribadi atau mengajak bertemu berdua di tempat sepi.</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <p class="font-bold text-indigo-800">"Kalau kamu melihatnya, menyentuhnya, memegangnya."</p>
+                <p><strong>Offline & Online:</strong> Sinyal bahaya! Jika batas mulai dilewati atau muncul paksaan, segera hentikan.</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <p class="font-bold text-indigo-800">"Kalau kamu melihatnya, aku bilang Ibuku, aku bilang Ayahku, aku bilang Guruku."</p>
+                <p><strong>Offline & Online:</strong> Jangan dipendam sendiri—segera ceritakan kepada Ibu, Ayah, atau Guru BK.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bagian 3: 3 Kartu Materi -->
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 card-hover">
+              <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-extrabold mb-3">1</div>
+              <h3 class="font-extrabold text-slate-900 mb-2">Mengenal <em>Child Grooming</em></h3>
+              <p class="text-sm text-slate-600 leading-relaxed">Proses pendekatan bertahap untuk membangun kedekatan emosional dan rasa percaya remaja dengan tujuan mengendalikan serta mengeksploitasi korban melalui perhatian, pujian, atau hadiah sebelum melanggar batas privasi.</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 card-hover">
+              <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-extrabold mb-3">2</div>
+              <h3 class="font-extrabold text-slate-900 mb-2">Batas Aman Diriku</h3>
+              <p class="text-sm text-slate-600 leading-relaxed"><strong>Offline:</strong> Bagian tubuh pribadi, sentuhan yang tidak nyaman, dan menolak ajakan ke tempat sepi. <strong>Online:</strong> Foto pribadi di kamar, <em>video call</em> privat, alamat rumah, jadwal pulang sekolah, dan kata sandi.</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 card-hover">
+              <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-extrabold mb-3">3</div>
+              <h3 class="font-extrabold text-slate-900 mb-2">Lingkaran Aman Terpercaya</h3>
+              <p class="text-sm text-slate-600 leading-relaxed">Jangan rahasiakan perlakuan yang melanggar batas. Kamu memiliki Ibu, Ayah, Kakak, Guru BK, serta layanan resmi gratis <strong>SAPA 129</strong> (Telepon 129 / WA 08111-129-129). Korban manipulasi bukanlah pihak yang bersalah.</p>
+            </div>
+          </div>
+
+          <!-- Bagian 4: Kuis Tahap 1 -->
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b">
+              <div>
+                <span class="text-xs font-extrabold uppercase text-indigo-600">Evaluasi Tahap 1</span>
+                <h3 class="text-lg font-extrabold text-slate-900">Kuis Pemahaman Batas & Privasi (10 Soal)</h3>
+              </div>
+              <span class="px-3 py-1 rounded-lg bg-amber-50 text-amber-800 text-xs font-bold border border-amber-200">Syarat Lulus: Benar Minimal 7 dari 10</span>
+            </div>
+            <div id="quiz-1-container" class="space-y-5"></div>
+            <div class="mt-6 flex flex-wrap items-center gap-4">
+              <button onclick="submitQuiz1()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow-md transition cursor-pointer">Periksa Jawaban Tahap 1</button>
+              <div id="quiz-1-result" class="text-sm font-bold"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE 2: RECOGNIZE -->
+        <div id="stage-2-content" class="hidden space-y-6">
+          <!-- Simulasi Chat Raka -->
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b">
+              <div>
+                <span class="text-xs font-extrabold uppercase text-indigo-600">Bagian 1 • Simulasi Interaktif</span>
+                <h2 class="text-xl font-extrabold text-slate-900">Simulasi Obrolan: Kenalan Game Bernama "Raka"</h2>
+                <p class="text-xs text-slate-500">Pilih responsmu dan perhatikan perubahan Rambu Lalu Lintas Interaksi secara langsung.</p>
+              </div>
+              <div id="traffic-light-badge" class="px-4 py-2 rounded-xl bg-emerald-100 text-emerald-800 font-extrabold text-sm border border-emerald-300 flex items-center gap-2">
+                <span>🟢</span> Rambu: HIJAU (Normal)
+              </div>
+            </div>
+
+            <div id="sim-chat-box" class="bg-slate-100 rounded-2xl p-4 h-72 overflow-y-auto space-y-3 mb-4 border border-slate-200"></div>
+            <div id="sim-options-box" class="space-y-2"></div>
+            <div class="mt-3 flex justify-between items-center text-xs text-slate-400">
+              <span id="sim-progress-text">Babak 1 dari 5</span>
+              <button onclick="resetSimulation()" class="text-indigo-600 font-bold hover:underline cursor-pointer">↺ Ulangi Simulasi</button>
+            </div>
+          </div>
+
+          <!-- Perpustakaan Pola 5D -->
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <span class="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-extrabold mb-3">Bagian 2 • Perpustakaan Pola 5D (Online & Offline)</span>
+            <h2 class="text-xl font-extrabold text-slate-900 mb-3">5 Tahapan Jebakan Pelaku <em>Child Grooming</em></h2>
+            <div class="hidden md:block overflow-x-auto">
+              <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-800">
+                    <th class="p-3 rounded-tl-xl font-bold border-b">Tahap Pola 5D</th>
+                    <th class="p-3 font-bold border-b">Konteks Dunia Maya (Online)</th>
+                    <th class="p-3 rounded-tr-xl font-bold border-b">Konteks Dunia Nyata (Offline)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-slate-700">
+                  <tr>
+                    <td class="p-3 font-bold text-indigo-700">D1 — Didekati</td>
+                    <td class="p-3">Memuji kemampuan bermain di grup daring, menyamakan hobi, dan menjadi pendengar setia.</td>
+                    <td class="p-3">Menyapa ramah di sekitar sekolah/tempat les, memuji berlebihan, dan berpura-pura paling peduli.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-3 font-bold text-amber-700">D2 — Dijauhkan</td>
+                    <td class="p-3">Mengajak pindah dari grup publik ke pesan pribadi (DM) dan meminta merahasiakan obrolan dari orang tua.</td>
+                    <td class="p-3">Mengajak berbicara berdua di tempat sepi jauh dari teman dan menyuruh merahasiakan pertemuan.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-3 font-bold text-amber-700">D3 — Diyakinkan</td>
+                    <td class="p-3">Memberikan item gim atau <em>diamond</em> gratis agar korban merasa berutang budi dan nyaman.</td>
+                    <td class="p-3">Sering mentraktir makanan, memberi hadiah/uang saku, atau menawarkan tumpangan pulang.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-3 font-bold text-rose-700">D4 — Dilanggar</td>
+                    <td class="p-3">Melempar candaan dewasa, meminta foto pribadi di kamar, panggilan video privat, atau mengajak bertemu berdua.</td>
+                    <td class="p-3">Menyentuh tangan/pundak tanpa izin, duduk terlalu dekat, atau mengajak masuk ke ruangan tertutup berdua.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-3 font-bold text-rose-700">D5 — Ditakuti</td>
+                    <td class="p-3">Mengungkit kebaikan, berpura-pura marah, atau mengancam menyebarkan chat/foto pribadi jika menolak.</td>
+                    <td class="p-3">Mengancam marah, menuduh tidak tahu terima kasih, atau menakut-nakuti akan menyalahkan korban jika melapor.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Mobile Card Stack Pola 5D -->
+            <div class="md:hidden space-y-3 text-xs">
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200"><strong class="text-indigo-700 block mb-1">D1 — Didekati</strong><p><strong>Online:</strong> Memuji berlebihan di grup gim & menyamakan hobi.<br><strong>Offline:</strong> Menyapa ramah di sekitar sekolah & berpura-pura paling peduli.</p></div>
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200"><strong class="text-amber-700 block mb-1">D2 — Dijauhkan</strong><p><strong>Online:</strong> Mengajak pindah ke DM pribadi & merahasiakan chat.<br><strong>Offline:</strong> Mengajak mengobrol berdua di tempat sepi jauh dari teman.</p></div>
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200"><strong class="text-amber-700 block mb-1">D3 — Diyakinkan</strong><p><strong>Online:</strong> Memberi item/diamond gratis agar berutang budi.<br><strong>Offline:</strong> Mentraktir jajan, memberi hadiah, atau menawarkan tumpangan.</p></div>
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200"><strong class="text-rose-700 block mb-1">D4 — Dilanggar</strong><p><strong>Online:</strong> Meminta foto pribadi di kamar atau video call privat.<br><strong>Offline:</strong> Menyentuh tangan/pundak tanpa izin atau mengajak ke ruang tertutup.</p></div>
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200"><strong class="text-rose-700 block mb-1">D5 — Ditakuti</strong><p><strong>Online:</strong> Mengancam menyebarkan chat/foto pribadi jika menolak.<br><strong>Offline:</strong> Mengancam marah atau menakut-nakuti akan menyalahkan korban.</p></div>
+            </div>
+          </div>
+
+          <!-- Kuis Tahap 2 -->
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b">
+              <div>
+                <span class="text-xs font-extrabold uppercase text-indigo-600">Evaluasi Tahap 2</span>
+                <h3 class="text-lg font-extrabold text-slate-900">Kuis Identifikasi Pola 5D & Rambu Interaksi (10 Soal)</h3>
+              </div>
+              <span class="px-3 py-1 rounded-lg bg-amber-50 text-amber-800 text-xs font-bold border border-amber-200">Syarat Lulus: Benar Minimal 7 dari 10</span>
+            </div>
+            <div id="quiz-2-container" class="space-y-5"></div>
+            <div class="mt-6 flex flex-wrap items-center gap-4">
+              <button onclick="submitQuiz2()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow-md transition cursor-pointer">Periksa Jawaban Tahap 2</button>
+              <div id="quiz-2-result" class="text-sm font-bold"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE 3: RESPOND -->
+        <div id="stage-3-content" class="hidden space-y-6">
+          <!-- Materi Jurus 4T -->
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold mb-3">Bagian 1 • Jurus 4T (Online & Offline)</span>
+            <h2 class="text-xl font-extrabold text-slate-900 mb-3">Memutus Jebakan dengan Jurus 4T: Tolak • Tandai • Tutup • Terbuka</h2>
+            <div class="grid sm:grid-cols-2 gap-4 text-sm">
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 card-hover">
+                <h3 class="font-extrabold text-indigo-700 mb-1">1. T1 — TOLAK (Penolakan Asertif)</h3>
+                <p class="text-slate-600">Katakan <strong>TIDAK</strong> secara jelas, singkat, dan tegas tanpa rasa bersalah. <strong>Online:</strong> <em>"Tidak mau, aku tidak pernah mengirim foto pribadi."</em> <strong>Offline:</strong> Tepis tangan, mundur ke tempat ramai, katakan <em>"Jangan pegang-pegang, aku tidak nyaman!"</em></p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 card-hover">
+                <h3 class="font-extrabold text-amber-700 mb-1">2. T2 — TANDAI (Dokumentasi Bukti)</h3>
+                <p class="text-slate-600"><strong>Online:</strong> Ambil tangkapan layar (<em>screenshot</em>) seluruh percakapan dan profil akun pelaku—jangan hapus riwayat chat. <strong>Offline:</strong> Catat ciri wajah, pakaian, kendaraan, lokasi, dan waktu kejadian.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 card-hover">
+                <h3 class="font-extrabold text-rose-700 mb-1">3. T3 — TUTUP (Putus Akses Pelaku)</h3>
+                <p class="text-slate-600"><strong>Online:</strong> Tekan tombol Blokir (<em>Block</em>) dan Laporkan (<em>Report</em>), ubah akun menjadi privat. <strong>Offline:</strong> Hindari jalan sepi sendirian dan selalu berada di area ramai atau bersama teman.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 card-hover">
+                <h3 class="font-extrabold text-emerald-700 mb-1">4. T4 — TERBUKA (Aktivasi Lingkaran Aman)</h3>
+                <p class="text-slate-600">Segera ceritakan kejadian dan tunjukkan bukti kepada Ibu, Ayah, Kakak, Guru BK, atau layanan <strong>SAPA 129</strong>. Korban manipulasi bukanlah pihak yang bersalah.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 Contoh Simulasi Terbimbing -->
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <span class="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-extrabold mb-3">Bagian 2 • 3 Contoh Penerapan Jurus 4T</span>
+            <div class="space-y-3 text-sm">
+              <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-200">
+                <span class="font-extrabold text-amber-800">Contoh 1 (Online • D2 Dijauhkan):</span> Raka mengajak pindah ke DM pribadi agar tidak diketahui orang tua. <br><strong>Aksi 4T:</strong> <em>Tolak</em> (<em>"Tidak usah DM, kita mengobrol di grup saja agar terbuka"</em>) + <em>Tandai</em> (waspadai akun pelaku).
+              </div>
+              <div class="p-4 rounded-xl bg-rose-50/60 border border-rose-200">
+                <span class="font-extrabold text-rose-800">Contoh 2 (Online • D3→D4 Dilanggar):</span> Raka mengungkit item gratis lalu meminta foto pribadi di kamar. <br><strong>Aksi 4T:</strong> <em>Tolak</em> (<em>"Tidak mau, bantuanmu kemarin bukan alasan untuk memaksaku"</em>) → <em>Tandai</em> (screenshot chat & profil) → <em>Tutup</em> (blokir & laporkan) → <em>Terbuka</em> (cerita ke orang tua/Guru BK).
+              </div>
+              <div class="p-4 rounded-xl bg-rose-50/60 border border-rose-200">
+                <span class="font-extrabold text-rose-800">Contoh 3 (Offline & Ancaman • D4→D5 Ditakuti):</span> Kenalan baru menyentuh pundak tanpa izin, mengajak ke ruangan sepi, dan mengancam akan menyalahkanmu jika melapor. <br><strong>Aksi 4T:</strong> <em>Tolak</em> (tepis, mundur cepat ke tempat ramai) → <em>Tandai</em> (ingat ciri pelaku & lokasi) → <em>Tutup</em> (hindari lokasi sepi sendirian) → <em>Terbuka</em> (segera lapor orang tua/Guru BK).
+              </div>
+            </div>
+          </div>
+
+          <!-- Kuis Menjodohkan Tahap 3 -->
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b">
+              <div>
+                <span class="text-xs font-extrabold uppercase text-indigo-600">Evaluasi Tahap 3</span>
+                <h3 class="text-lg font-extrabold text-slate-900">Kuis Menjodohkan: Respons Asertif & Jurus 4T (10 Soal)</h3>
+              </div>
+              <span class="px-3 py-1 rounded-lg bg-amber-50 text-amber-800 text-xs font-bold border border-amber-200">Syarat Lulus: Benar Minimal 7 dari 10</span>
+            </div>
+            <div id="quiz-3-container" class="space-y-4"></div>
+            <div class="mt-6 flex flex-wrap items-center gap-4">
+              <button onclick="submitQuiz3()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow-md transition cursor-pointer">Periksa Jawaban Tahap 3</button>
+              <div id="quiz-3-result" class="text-sm font-bold"></div>
+            </div>
+          </div>
+
+          <!-- My Safety Card -->
+          <div id="safety-card-box" class="bg-gradient-to-br from-indigo-50 via-white to-emerald-50 rounded-2xl p-6 shadow-sm border-2 border-indigo-200">
+            <span class="inline-block px-3 py-1 rounded-full bg-indigo-600 text-white text-xs font-extrabold mb-2">Bagian 4 • Kartu Komitmen Pribadi</span>
+            <h2 class="text-xl font-extrabold text-slate-900 mb-1">My Safety Card & Lingkaran Amanku</h2>
+            <p class="text-xs text-slate-600 mb-4">Lengkapi kartu ini sebagai pengingat batas dirimu dan daftar orang terpercaya yang siap mendukungmu.</p>
+
+            <div class="space-y-4 text-sm">
+              <div>
+                <label class="block font-bold text-slate-800 mb-2">1. Pilih Anggota Lingkaran Amanku (Boleh lebih dari satu):</label>
+                <div class="grid sm:grid-cols-2 gap-2.5">
+                  <label class="flex items-center gap-2 bg-white p-2.5 rounded-xl border">
+                    <input type="checkbox" class="safe-circle-cb" value="Ibu / Ayah"> <span>Ibu / Ayah</span>
+                    <input type="text" id="sc-name-parent" placeholder="Nama..." class="ml-auto w-28 text-xs border-b outline-none px-1">
+                  </label>
+                  <label class="flex items-center gap-2 bg-white p-2.5 rounded-xl border">
+                    <input type="checkbox" class="safe-circle-cb" value="Kakak / Saudara"> <span>Kakak / Saudara</span>
+                    <input type="text" id="sc-name-sibling" placeholder="Nama..." class="ml-auto w-28 text-xs border-b outline-none px-1">
+                  </label>
+                  <label class="flex items-center gap-2 bg-white p-2.5 rounded-xl border">
+                    <input type="checkbox" class="safe-circle-cb" value="Sahabat / Bestie"> <span>Sahabat / Bestie</span>
+                    <input type="text" id="sc-name-bestie" placeholder="Nama..." class="ml-auto w-28 text-xs border-b outline-none px-1">
+                  </label>
+                  <label class="flex items-center gap-2 bg-white p-2.5 rounded-xl border">
+                    <input type="checkbox" class="safe-circle-cb" value="Guru BK / Wali Kelas"> <span>Guru BK / Wali Kelas</span>
+                    <input type="text" id="sc-name-teacher" placeholder="Nama..." class="ml-auto w-28 text-xs border-b outline-none px-1">
+                  </label>
+                  <label class="flex items-center gap-2 bg-white p-2.5 rounded-xl border">
+                    <input type="checkbox" class="safe-circle-cb" value="Lainnya"> <span>Lainnya</span>
+                    <input type="text" id="sc-name-other" placeholder="Tulis siapa..." class="ml-auto w-28 text-xs border-b outline-none px-1">
+                  </label>
+                  <label class="flex items-center gap-2 bg-white p-2.5 rounded-xl border">
+                    <input type="checkbox" checked disabled> <span class="font-semibold text-rose-700">Layanan SAPA 129 (129)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-800 mb-1">2. Janji Buat Diri Sendiri (Tulis Versimu Sendiri):</label>
+                <p class="text-xs text-slate-500 mb-2">Contoh: <em>"Kalau ada yang bikin risih di chat atau pas ketemu langsung, aku berani bilang TIDAK dan langsung cerita ke Mama atau Bestie!"</em></p>
+                <textarea id="sc-pledge" rows="2" placeholder="Ketik kalimat janjimu di sini..." class="w-full p-3 rounded-xl border border-slate-300 bg-white focus:border-indigo-500 outline-none text-sm"></textarea>
+              </div>
+
+              <button onclick="completeProgram()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-6 py-3 rounded-xl shadow-md transition cursor-pointer">
+                🎉 SELESAIKAN PROGRAM
+              </button>
+            </div>
+
+            <div id="completion-banner" class="hidden mt-5 p-5 rounded-2xl bg-emerald-600 text-white fade-in">
+              <h3 class="text-lg font-extrabold">SELAMAT! KAMU KEREN BANGET! 🎉</h3>
+              <p class="text-sm text-emerald-50 mt-1 leading-relaxed">
+                Kamu telah menuntaskan seluruh perjalanan belajar di <strong>GROOMTRACK</strong>—mulai dari <strong>Tahap 1 (Realize)</strong>, <strong>Tahap 2 (Recognize Pola 5D)</strong>, sampai <strong>Tahap 3 (Respond dengan Jurus 4T)</strong>. Ingat selalu: tubuh dan privasimu berharga, kamu tidak pernah salah jika menjadi target manipulasi, dan kamu selalu memiliki Lingkaran Aman yang siap mendukungmu!
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 2: RUANG CERITA ==================== -->
+      <section id="view-cerita" class="hidden space-y-6 fade-in">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-xl font-extrabold text-slate-900">💬 Ruang Cerita Aman</h2>
+            <span class="text-xs font-bold bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full">Identitas Anonim Terlindungi</span>
+          </div>
+          <p class="text-xs text-slate-500 mb-4">Bagikan pengalaman atau perasaanmu secara anonim. Demi keamanan bersama, komentar bebas dinonaktifkan dan diganti dengan pilihan kalimat dukungan positif.</p>
+
+          <form onsubmit="postNewStory(event)" class="space-y-3">
+            <textarea id="story-input" rows="3" required placeholder="Ceritakan pengalamanmu menjaga batas diri hari ini (jangan cantumkan nomor HP, alamat, atau nama asli ya)..." class="w-full p-3.5 rounded-xl border border-slate-200 focus:border-indigo-500 outline-none text-sm"></textarea>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-slate-400">Posting sebagai: <strong id="anon-alias-label" class="text-slate-600">Bintang Pelindung #108</strong></span>
+              <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-sm transition cursor-pointer">Kirim Cerita</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="stories-feed" class="space-y-4"></div>
+      </section>
+
+      <!-- ==================== TAB 3: JURNALKU ==================== -->
+      <section id="view-jurnal" class="hidden space-y-6 fade-in">
+        <div id="journal-pin-gate" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 max-w-md mx-auto text-center">
+          <div class="w-12 h-12 rounded-2xl bg-violet-100 text-violet-700 flex items-center justify-center text-2xl mx-auto mb-3">🔐</div>
+          <h2 class="text-lg font-extrabold text-slate-900">Jurnalku (100% Privat)</h2>
+          <p id="journal-pin-desc" class="text-xs text-slate-500 mt-1 mb-4">Buat PIN 4 digit agar catatan harianmu tetap rahasia dan hanya bisa dibuka olehmu.</p>
+          <input type="password" id="journal-pin-input" maxlength="4" pattern="[0-9]*" inputmode="numeric" placeholder="••••" class="w-36 text-center tracking-[0.5em] font-extrabold text-xl py-2.5 rounded-xl border border-slate-300 focus:border-violet-500 outline-none mb-3" />
+          <p id="journal-pin-error" class="hidden text-xs text-rose-600 mb-2"></p>
+          <div>
+            <button onclick="unlockJournal()" class="bg-violet-600 hover:bg-violet-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer">Buka Jurnalku</button>
+          </div>
+        </div>
+
+        <div id="journal-main" class="hidden space-y-6">
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h2 class="text-xl font-extrabold text-slate-900">📔 Dear Diary — Ruang Refleksi Pribadi</h2>
+                <p class="text-xs text-slate-500">Catatan ini hanya tersimpan di perangkat dan akunmu sendiri.</p>
+              </div>
+              <button onclick="lockJournal()" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg cursor-pointer">🔒 Kunci Jurnal</button>
+            </div>
+
+            <form onsubmit="saveJournalEntry(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-2">Bagaimana perasaanmu hari ini?</label>
+                <div class="flex flex-wrap gap-2" id="mood-selector">
+                  <button type="button" onclick="selectMood('😊 Senang')" class="mood-btn px-3 py-1.5 rounded-xl border text-xs font-bold bg-indigo-50 border-indigo-500 text-indigo-700 cursor-pointer">😊 Senang</button>
+                  <button type="button" onclick="selectMood('😌 Tenang')" class="mood-btn px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 cursor-pointer">😌 Tenang</button>
+                  <button type="button" onclick="selectMood('🤔 Bingung')" class="mood-btn px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 cursor-pointer">🤔 Bingung</button>
+                  <button type="button" onclick="selectMood('😟 Risih / Tidak Nyaman')" class="mood-btn px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 cursor-pointer">😟 Risih / Tidak Nyaman</button>
+                  <button type="button" onclick="selectMood('😨 Takut / Cemas')" class="mood-btn px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 cursor-pointer">😨 Takut / Cemas</button>
+                </div>
+              </div>
+              <textarea id="journal-text" rows="4" required placeholder="Tulis apa saja yang kamu rasakan hari ini..." class="w-full p-3.5 rounded-xl border border-slate-200 focus:border-violet-500 outline-none text-sm"></textarea>
+              <button type="submit" class="bg-violet-600 hover:bg-violet-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-sm transition cursor-pointer">Simpan Catatan</button>
+            </form>
+          </div>
+
+          <div id="journal-entries-list" class="space-y-3"></div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 4: BANTUAN DARURAT ==================== -->
+      <section id="view-bantuan" class="hidden space-y-6 fade-in">
+        <div class="bg-rose-600 text-white rounded-2xl p-6 shadow-md">
+          <h2 class="text-xl font-extrabold">🆘 Pusat Bantuan & Konseling Darurat</h2>
+          <p class="text-sm text-rose-100 mt-1">Jika kamu sedang merasa terancam, dipaksa, atau tidak nyaman, jangan hadapi sendirian. Segera hubungi layanan resmi atau Lingkaran Amanmu.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+            <span class="px-2.5 py-1 rounded-md bg-rose-100 text-rose-700 text-xs font-extrabold">Layanan Resmi Pemerintah (Gratis 24 Jam)</span>
+            <h3 class="text-lg font-extrabold text-slate-900 mt-3">SAPA 129 (KemenPPPA RI)</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Sahabat Perempuan dan Anak — layanan pengaduan, pendampingan psikologis, dan perlindungan anak yang aman serta rahasia.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <a href="tel:129" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition">📞 Telepon 129</a>
+              <a href="https://wa.me/628111129129" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition">💬 WhatsApp 08111-129-129</a>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+            <span class="px-2.5 py-1 rounded-md bg-indigo-100 text-indigo-700 text-xs font-extrabold">Tersinkronisasi dari My Safety Card</span>
+            <h3 class="text-lg font-extrabold text-slate-900 mt-3">Lingkaran Aman Pribadiku</h3>
+            <div id="help-safe-circle-list" class="mt-2 text-sm text-slate-600">
+              <p class="text-xs text-slate-400 italic">Belum ada data. Lengkapi Kartu Aman Pribadi di Tahap 3 atau segera hubungi Ibu, Ayah, atau Guru BK di sekolahmu.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- MASKOT OLLIE SI BURUNG HANTU (POJOK KIRI BAWAH) -->
+    <div id="ollie-widget" class="fixed bottom-4 left-4 z-40 flex items-end gap-2.5 max-w-[280px] sm:max-w-xs">
+      <button onclick="cycleOllieTip()" title="Klik Ollie untuk tips keamanan!" class="ollie-float relative w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-700 text-white shadow-lg border-2 border-white flex items-center justify-center shrink-0 cursor-pointer">
+        <span class="star-twinkle absolute -top-1.5 -right-1.5 text-xs">✨</span>
+        <svg viewBox="0 0 64 64" class="w-10 h-10">
+          <circle cx="32" cy="34" r="20" fill="#fde68a"/>
+          <path d="M16 20 L22 10 L28 18 Z" fill="#f59e0b"/>
+          <path d="M48 20 L42 10 L36 18 Z" fill="#f59e0b"/>
+          <circle cx="24" cy="30" r="6" fill="#fff"/>
+          <circle cx="40" cy="30" r="6" fill="#fff"/>
+          <circle cx="24" cy="30" r="3" fill="#1e1b4b" class="ollie-eye"/>
+          <circle cx="40" cy="30" r="3" fill="#1e1b4b" class="ollie-eye"/>
+          <polygon points="32,33 28,39 36,39" fill="#ea580c"/>
+        </svg>
+      </button>
+      <div id="ollie-speech" class="bg-white/95 backdrop-blur p-3 rounded-2xl rounded-bl-none shadow-lg border border-indigo-100 text-xs text-slate-700 leading-snug">
+        <strong class="text-indigo-700 block text-[11px]">Ollie • Sobat Penjagamu</strong>
+        <span id="ollie-tip-text">Halo! Ingat ya, tubuh & privasimu adalah milikmu sepenuhnya. Klik aku kalau butuh tips!</span>
+      </div>
+    </div>
+
+    <!-- FOOTER RESMI -->
+    <footer class="bg-white border-t border-slate-200 py-5 px-4 mt-10 pb-20 sm:pb-5">
+      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+        <span class="font-bold text-slate-700">GROOMTRACK • Program Edukasi Pencegahan Child Grooming (3R)</span>
+        <span class="font-extrabold text-indigo-700">N2K Team SMP Negeri 5 Yogyakarta</span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const quiz1Data = [
+      { q: "Berdasarkan berita kasus siswi SMP di Sukabumi, bagaimana cara pelaku awalnya membangun kedekatan dengan korban?", opts: ["Mengancam korban secara langsung di depan gerbang sekolah", "Berkenalan melalui media sosial dengan mengaku sebagai senior kegiatan ekstrakurikuler", "Meminta nomor ponsel korban melalui guru wali kelas", "Mengirimkan tautan undian berhadiah melalui pesan singkat"], ans: 1 },
+      { q: "Manakah dampak yang dialami oleh korban dalam berita kasus di Sukabumi akibat tindakan pelaku?", opts: ["Korban mendapatkan penghargaan dari pihak sekolah", "Akun media sosial pelaku langsung terhapus secara otomatis", "Korban mengalami trauma psikologis dan terpaksa berhenti sekolah untuk sementara waktu", "Pelaku mengembalikan seluruh foto pribadi korban tanpa menyebarkannya"], ans: 2 },
+      { q: "Dari lagu pengingat batas diri, kalimat apakah yang diulang pada bagian awal lagu?", opts: ["Ini rahasia kita, rahasia kita, rahasia kita.", "Ini area privasiku, privasiku, privasiku.", "Ini akun pribadiku, pribadiku, pribadiku.", "Jangan ganggu hidupku, hidupku, hidupku."], ans: 1 },
+      { q: "Apabila lirik 'Ini area privasiku' diterapkan dalam kehidupan sehari-hari baik secara daring maupun luring, manakah yang termasuk area privasi yang wajib dijaga?", opts: ["Nama karakter permainan dan daftar lagu kegemaran", "Skor tertinggi dalam permainan daring", "Bagian tubuh pribadi, foto pribadi di kamar, alamat rumah, dan kata sandi akun", "Jadwal mata pelajaran umum yang terpasang di papan pengumuman sekolah"], ans: 2 },
+      { q: "Pesan utama yang terkandung dalam lirik lagu 'Jangan kamu lihat, jangan kamu sentuh, jangan kamu pegang' adalah...", opts: ["Cara merawat perangkat telepon genggam agar tidak mudah rusak", "Penegasan batas diri bahwa orang lain dilarang melihat maupun menyentuh area pribadi tanpa izin", "Larangan meminjamkan perlengkapan sekolah kepada teman sekelas", "Aturan menjaga kebersihan lingkungan kelas dan sekolah"], ans: 1 },
+      { q: "Berdasarkan Kartu Materi 1, apakah yang dimaksud dengan child grooming?", opts: ["Peretasan akun permainan daring untuk mengambil item berbayar", "Proses pendekatan bertahap untuk membangun kepercayaan dan kedekatan emosional remaja dengan tujuan mengendalikan serta mengeksploitasi korban", "Perbedaan pendapat antar pengguna media sosial di kolom komentar", "Penipuan jual beli barang elektronik melalui aplikasi pesan instan"], ans: 1 },
+      { q: "Mengapa pelaku child grooming sering menunjukkan sikap sangat ramah, memberi pujian berlebihan, atau memberikan hadiah pada tahap awal perkenalan?", opts: ["Karena pelaku memiliki kelebihan rezeki untuk dibagikan kepada semua orang", "Untuk membangun rasa percaya dan ketergantungan emosional sehingga korban tidak menaruh curiga saat batas privasinya mulai dilanggar", "Karena diwajibkan oleh peraturan komunitas permainan daring", "Agar pelaku dikenal sebagai anggota kelompok yang paling dermawan"], ans: 1 },
+      { q: "Berdasarkan Kartu Materi 2 (Batas Aman Diriku), tindakan yang paling tepat apabila kenalan baru di internet menanyakan alamat rumah dan kondisi apakah kamu sedang sendirian di rumah adalah...", opts: ["Menjawab dengan jujur agar tidak dianggap sombong oleh kenalan baru", "Memberikan alamat lengkap dengan syarat kenalan tersebut tidak datang ke rumah", "Menolak memberikan informasi tersebut karena lokasi dan kondisi rumah merupakan bagian dari privasi yang harus dilindungi", "Mengirimkan foto bagian depan rumah sebagai bukti kejujuran"], ans: 2 },
+      { q: "Pada lagu tersebut, siapakah pihak-pihak yang disebutkan pada bagian akhir lirik 'Aku bilang ..., aku bilang ..., aku bilang ...'?", opts: ["Teman bermain, ketua kelas, dan kakak tingkat", "Ibuku, Ayahku, dan Guruku", "Tetangga rumah, petugas keamanan, dan pengemudi daring", "Dokter, petugas pemadam kebakaran, dan ketua RT"], ans: 1 },
+      { q: "Pesan utama yang disampaikan pada Kartu Materi 3 (Lingkaran Aman Terpercaya) sesuai dengan bagian akhir lirik lagu tersebut adalah...", opts: ["Setiap permasalahan atau perlakuan yang membuat tidak nyaman sebaiknya disimpan sendiri agar tidak membebani orang tua", "Remaja SMP dituntut untuk menyelesaikan seluruh ancaman daring secara mandiri tanpa bantuan orang dewasa", "Korban tidak boleh merahasiakan perlakuan yang melanggar batas privasi dan harus segera melapor kepada orang tua, guru, atau layanan perlindungan resmi", "Pelaporan kepada orang dewasa hanya dapat dilakukan apabila pelaku sudah diketahui identitas aslinya"], ans: 2 }
+    ];
+
+    const quiz2Data = [
+      { q: "Seorang kenalan baru di grup gim daring memuji kemampuan bermainmu secara berlebihan dan mengaku hanya dirinya yang paling memahami perasaanmu. Tahap Pola 5D apakah yang sedang terjadi?", opts: ["D1 — Didekati", "D3 — Diyakinkan", "D4 — Dilanggar", "D5 — Ditakuti"], ans: 0 },
+      { q: "Pelaku mengajakmu berpindah dari grup obrolan umum ke pesan pribadi (DM) dan berpesan agar kamu tidak memberi tahu orang tua. Tindakan ini termasuk tahap...", opts: ["D1 — Didekati", "D2 — Dijauhkan", "D4 — Dilanggar", "D5 — Ditakuti"], ans: 1 },
+      { q: "Kenalan baru di sekitar tempat les sering mentraktir makanan setiap pulang belajar agar kamu merasa berutang budi dan sulit menolak permintaannya. Dalam Pola 5D, tahap ini disebut...", opts: ["D1 — Didekati", "D2 — Dijauhkan", "D3 — Diyakinkan", "D5 — Ditakuti"], ans: 2 },
+      { q: "Rambu Lalu Lintas Interaksi manakah yang menyala apabila seseorang mulai menanyakan alamat rumah, jadwal pulang sekolah, dan meminta merahasiakan obrolan?", opts: ["Hijau (Normal)", "Kuning (Waspada)", "Biru (Aman)", "Putih (Netral)"], ans: 1 },
+      { q: "Kenalan daring yang pernah memberimu item gim gratis mulai memaksa meminta foto pribadi di dalam kamar dengan alasan kenang-kenangan. Tahap Pola 5D dan status rambu yang tepat adalah...", opts: ["D1 — Didekati (Rambu Hijau)", "D2 — Dijauhkan (Rambu Hijau)", "D4 — Dilanggar (Rambu Merah / Bahaya)", "D3 — Diyakinkan (Rambu Hijau)"], ans: 2 },
+      { q: "Ketika berjalan pulang dari tempat kegiatan, seseorang duduk terlalu dekat, memegang tanganmu tanpa izin, dan mengajak masuk ke ruangan sepi. Perilaku luring ini termasuk tahap...", opts: ["D1 — Didekati", "D2 — Dijauhkan", "D3 — Diyakinkan", "D4 — Dilanggar"], ans: 3 },
+      { q: "Saat kamu menolak permintaannya, pelaku mengancam akan menyebarkan tangkapan layar percakapan agar kamu dimarahi orang tua. Tahap Pola 5D apakah ini?", opts: ["D1 — Didekati", "D2 — Dijauhkan", "D3 — Diyakinkan", "D5 — Ditakuti"], ans: 3 },
+      { q: "Manakah interaksi berikut yang masih berada pada status Rambu Hijau (Normal)?", opts: ["Berdiskusi strategi permainan di grup publik tanpa meminta data pribadi", "Diminta mengirim foto wajah sebelum tidur lewat pesan pribadi", "Diajak bertemu berdua di taman sepi tanpa izin orang tua", "Diberi hadiah bersyarat agar tidak bercerita kepada guru"], ans: 0 },
+      { q: "Mengapa pelaku sering memberikan hadiah atau bantuan pada tahap D3 (Diyakinkan)?", opts: ["Untuk membantu meringankan biaya sekolah korban secara tulus", "Untuk menciptakan rasa utang budi sehingga korban merasa tidak enak hati saat diminta melanggar batas privasi", "Karena diwajibkan oleh peraturan aplikasi permainan", "Agar korban segera melupakan teman-teman sebayanya"], ans: 1 },
+      { q: "Apabila seseorang di lingkungan sekitar berpesan 'Jangan bilang ayah atau ibumu ya kalau kakak sering kasih uang jajan', tanda bahaya apa yang muncul?", opts: ["Isolasi dan aturan rahasia (D2 — Dijauhkan)", "Obrolan pertemanan yang sehat", "Bentuk perhatian kakak kelas yang wajar", "Penghargaan atas prestasi akademik"], ans: 0 }
+    ];
+
+    const quiz3Data = [
+      { q: "Chat Raka: 'Kamu mainnya jago banget! Beda jauh sama anak-anak lain di grup ini.' [D1]", opts: ["Makasih ya, kita semua masih sama-sama belajar kok di grup ini.", "Tidak mau! Itu privasi aku dan jangan hubungi aku lagi!", "Baik, ini alamat rumah dan nomor ponsel pribadiku.", "Jangan pegang-pegang, aku tidak nyaman!"], ans: 0 },
+      { q: "Chat Raka: 'Umurmu berapa? Sekolah di SMP mana dan biasanya pulang jam berapa?' [D1/D2]", opts: ["Aku sekolah di SMP dekat alun-alun dan pulang jam 2 siang sendirian.", "Maaf, aku tidak membagikan informasi sekolah maupun jadwal pribadiku kepada kenalan daring.", "Boleh, asal kamu kasih aku item gratis dulu ya.", "Nanti aku kirim foto seragam sekolahku lewat pesan pribadi."], ans: 1 },
+      { q: "Chat Raka: 'Di grup obrolannya tertumpuk terus. Lebih baik kita mengobrol berdua di DM pribadi saja.' [D2]", opts: ["Ayo, tapi jangan bilang siapa-siapa ya.", "Tidak usah DM, kita bahas permainan di grup saja agar terbuka.", "Baiklah, aku hapus saja akun grupnya.", "Kirimkan dulu hadiahnya baru aku pindah ke DM."], ans: 1 },
+      { q: "Chat Raka: 'Jangan sampai orang tua atau teman sekolahmu tahu kita sering mengobrol malam-malam ya.' [D2]", opts: ["Siap, rahasia kita aman.", "Tidak, aku tidak mau merahasiakan apa pun dari orang tuaku.", "Boleh, asalkan kamu tidak marah.", "Aku akan mematikan ponselku setiap malam."], ans: 1 },
+      { q: "Situasi Luring: Kenalan baru di tempat kegiatan sering mentraktir jajan setiap hari lalu menyuruhmu merahasiakannya dari orang tua. [D3]", opts: ["Menerima traktiran setiap hari agar menghemat uang saku.", "Terima kasih, tetapi aku tidak membutuhkan traktiran dan tidak mau merahasiakan hal apa pun dari orang tuaku.", "Mengajaknya pulang ke rumah saat orang tua sedang bekerja.", "Menuruti semua permintaannya karena merasa berutang budi."], ans: 1 },
+      { q: "Chat Raka: 'Sini aku berikan top-up diamond gratis untukmu, asal janji hadiah ini rahasia kita berdua.' [D3]", opts: ["Terima kasih, tetapi aku tidak menerima hadiah dari kenalan daring, apalagi dengan syarat rahasia.", "Mau banget, kirim sekarang juga ke akunku!", "Boleh, tapi rahasiakan dari teman-teman saja.", "Aku akan mengirimkan foto pribadiku sebagai tanda terima kasih."], ans: 0 },
+      { q: "Chat Raka: 'Kirim foto selfie kamu sekarang. Kan kita teman dekat, jangan terlalu serius begitu.' [D4]", opts: ["Baik, tapi langsung dihapus setelah dilihat ya.", "Tidak mau! Itu privasi aku, dan bercanda pun tetap memiliki batas.", "Aku kirim foto saat di ruang tamu saja.", "Tunggu sebentar aku ambil fotonya dulu."], ans: 1 },
+      { q: "Situasi Luring: Seseorang tiba-tiba duduk terlalu dekat, memegang tanganmu tanpa izin, dan mengajak ke tempat sepi. [D4]", opts: ["Diam saja karena takut dianggap tidak sopan.", "Segera tepis tangannya, mundur ke tempat ramai, dan katakan tegas: 'Jangan pegang-pegang! Aku tidak mau ikut!'", "Ikut sebentar agar dia tidak kecewa.", "Menunggu hingga tempat tersebut semakin sepi."], ans: 1 },
+      { q: "Chat Raka: 'Aku sudah banyak membantumu di permainan. Kalau kamu menolak, aku akan kecewa dan marah besar.' [D5]", opts: ["Maafkan aku, baiklah aku turuti permintaanmu.", "Bantuanmu tidak membuatku wajib menuruti permintaanmu. Kemarahanmu bukan tanggung jawabku. (Lalu blokir akun)", "Tolong jangan marah, aku akan kirim fotonya besok.", "Menghapus seluruh riwayat chat agar tidak ketahuan."], ans: 1 },
+      { q: "Situasi Daring & Luring: Pelaku mengancam akan menyebarkan percakapan atau menyalahkanmu jika berani melapor kepada orang tua. [D5]", opts: ["Menghapus seluruh bukti percakapan dan memendamnya sendirian.", "Menyimpan tangkapan layar bukti atau mencatat ciri pelaku, lalu segera bercerita kepada Orang Tua atau Guru BK (Tandai & Terbuka).", "Menuruti seluruh ancaman pelaku agar masalah selesai.", "Membalas ancaman pelaku dengan kata-kata kasar terus-menerus."], ans: 1 }
+    ];
+
+    const simSteps = [
+      {
+        raka: "Halo! Mainmu barusan keren banget di turnamen mini tadi. Beda jauh sama anak-anak lain di grup!",
+        light: "green",
+        opts: [
+          { text: "Makasih ya, kita semua masih sama-sama belajar kok di grup ini.", nextLight: "green" },
+          { text: "Wah makasih banyak! Kamu juga jago banget.", nextLight: "green" },
+          { text: "Iya dong, aku emang paling jago di sekolahku.", nextLight: "yellow" }
+        ]
+      },
+      {
+        raka: "Eh di grup obrolannya ketumpuk terus nih. Kita pindah ke DM pribadi aja yuk biar lebih asyik ngobrolnya, tapi jangan bilang siapa-siapa ya.",
+        light: "yellow",
+        opts: [
+          { text: "Nggak usah DM, kita ngobrol di grup aja biar rame dan terbuka.", nextLight: "green" },
+          { text: "Oke boleh, tapi cuma bahas strategi game aja ya.", nextLight: "yellow" },
+          { text: "Siap, rahasia kita aman kok.", nextLight: "yellow" }
+        ]
+      },
+      {
+        raka: "Kamu tuh paling nyambung diajak ngobrol. Sebagai tanda teman spesial, sini aku top-up diamond gratis buat kamu, asal jangan kasih tahu Mama atau Papamu ya!",
+        light: "yellow",
+        opts: [
+          { text: "Makasih, tapi aku nggak nerima hadiah atau top-up dari kenalan online.", nextLight: "yellow" },
+          { text: "Wah serius? Mau banget dong!", nextLight: "red" },
+          { text: "Boleh, tapi aku nggak janji soal rahasia.", nextLight: "red" }
+        ]
+      },
+      {
+        raka: "Kan aku udah baik banget sama kamu. Sekarang giliran kamu kirim foto selfie pas lagi di kamar dong, 1 aja buat kenang-kenangan. Masa pelit sih?",
+        light: "red",
+        opts: [
+          { text: "Nggak mau! Itu privasi aku, dan bantuanmu kemarin bukan alasan buat maksa aku.", nextLight: "red" },
+          { text: "Nggak bisa, jangan minta hal aneh-aneh lagi.", nextLight: "red" },
+          { text: "Bercanda pun ada batasnya. Aku stop chat sampai sini.", nextLight: "red" }
+        ]
+      },
+      {
+        raka: "Awas ya kalau kamu nolak dan berani ngadu ke orang tuamu! Lihat aja nanti aku bakal sebar chat kita biar kamu yang dimarahin habis-habisan!",
+        light: "red",
+        opts: [
+          { text: "[Jurus 4T] Tidak membalas ancaman → Screenshot bukti → Blokir & Report → Cerita ke Orang Tua / Guru BK!", nextLight: "red" },
+          { text: "[Jurus 4T] Simpan bukti chat (jangan dihapus) → Blokir akun Raka → Hubungi SAPA 129 / Orang Tua!", nextLight: "red" }
+        ]
+      }
+    ];
+
+    const defaultDummyStories = [
+      { id: 1, author: "Panda Ceria #082", time: "2 jam lalu", text: "Kemarin pas main mabar ada orang asing yang maksa minta foto selfie sama alamat sekolahku. Sempet bingung karena dia baik banget kasih skin gratis, tapi aku inget materi 3R dan langsung aku tolak terus blokir. Lega banget rasanya!", likes: 24, liked: false, comments: ["Keren banget udah berani bilang NGGAK!", "Kamu hebat banget udah berani cerita! 🤍"] },
+      { id: 2, author: "Bintang Kecil #115", time: "5 jam lalu", text: "Jujur agak takut mau cerita ke Mama soal chat dari kenalan baru yang bikin risih karena takut dimarahin. Tapi setelah baca kalau korban itu bukan yang salah, malam ini aku mau coba ngomong pelan-pelan ke Mama.", likes: 41, liked: false, comments: ["Inget ya, ini bukan salah kamu. Kamu berhak aman!", "Semangat terus, jangan lupa cerita ke orang dewasa yang kamu percaya ya!"] },
+      { id: 3, author: "Rubah Pintar #047", time: "1 hari lalu", text: "Baru sadar ternyata kalau ada yang nyuruh 'jangan bilang siapa-siapa ya' itu udah masuk tanda bahaya Pola 5D. Makasih banget materinya ngebantu aku lebih waspada!", likes: 19, liked: false, comments: ["Aku dukung kamu, kamu nggak sendirian!"] },
+      { id: 4, author: "Kupu-Kupu Biru #134", time: "1 hari lalu", text: "Tadi pulang les ada orang nggak dikenal yang nawarin tumpangan motor sambil maksa-maksa padahal aku nggak kenal. Untung inget jurus Tolak & Tutup—aku langsung bilang nggak usah dengan tegas terus jalan cepat masuk ke area ramai dekat minimarket. Lega banget bisa jaga diri!", likes: 33, liked: false, comments: ["Keren banget udah berani bilang NGGAK!", "Kamu hebat banget udah berani cerita! 🤍"] },
+      { id: 5, author: "Lumba-Lumba Ceria #091", time: "2 hari lalu", text: "Dulu aku kira kalau dikasih diamond gratis sama teman mabar itu tanda dia baik banget. Ternyata pas aku nolak kirim foto, dia langsung ngancem bakal nyebarin chat. Makasih banget buat fitur Bantuan & SAPA 129, akhirnya aku berani screenshot semua buktinya dan cerita ke Guru BK.", likes: 52, liked: false, comments: ["Inget ya, ini bukan salah kamu. Kamu berhak aman!", "Aku dukung kamu, kamu nggak sendirian!"] },
+      { id: 6, author: "Pohon Pinus #208", time: "3 hari lalu", text: "Hari ini aku baru ngisi My Safety Card di Tahap 3 dan nulis nama Mama sama Bestie di Lingkaran Aman. Rasanya tenang banget tahu kalau aku nggak harus ngadepin hal-hal aneh di internet sendirian.", likes: 28, liked: false, comments: ["Semangat terus, jangan lupa cerita ke orang dewasa yang kamu percaya ya!"] }
+    ];
+
+    const presetSupportComments = [
+      "Kamu hebat banget udah berani cerita! 🤍",
+      "Inget ya, ini bukan salah kamu. Kamu berhak aman!",
+      "Semangat terus, jangan lupa cerita ke orang dewasa yang kamu percaya ya!",
+      "Aku dukung kamu, kamu nggak sendirian!",
+      "Keren banget udah berani bilang NGGAK!"
+    ];
+
+    const ollieTips = [
+      "Halo! Ingat ya, tubuh & privasimu adalah milikmu sepenuhnya. Klik aku kalau butuh tips!",
+      "Kalau ada kenalan online bilang 'jangan bilang Mama/Papa ya', itu sinyal bahaya D2 (Dijauhkan)!",
+      "Hadiah gratis atau diamond di game tidak membuatmu wajib menuruti permintaan yang melanggar privasi.",
+      "Jangan pernah hapus bukti chat kalau ada yang mengancam—screenshot dulu lalu cerita ke Lingkaran Amanmu!",
+      "Tekan tombol Quick Hide atau tombol Esc kapan saja kalau kamu butuh menyamarkan layar dengan cepat."
+    ];
+
+    let currentUser = null;
+    let simIndex = 0;
+    let selectedMood = "😊 Senang";
+    let ollieTipIndex = 0;
+
+    function cycleOllieTip() {
+      ollieTipIndex = (ollieTipIndex + 1) % ollieTips.length;
+      document.getElementById("ollie-tip-text").textContent = ollieTips[ollieTipIndex];
+    }
+
+    function checkLocalVideoAvailability() {
+      fetch("./video.mp4", { method: "HEAD" })
+        .then((res) => {
+          if (res.ok) {
+            const wrapper = document.getElementById("video-wrapper");
+            const vid = document.getElementById("lesson-video");
+            vid.src = "./video.mp4";
+            wrapper.classList.remove("hidden");
+          }
+        })
+        .catch(() => {});
+    }
+
+    function getUsersDB() { return JSON.parse(localStorage.getItem("groomtrack_users") || "{}"); }
+    function saveUsersDB(db) { localStorage.setItem("groomtrack_users", JSON.stringify(db)); }
+
+    function toggleQuickHide(hide) {
+      const cam = document.getElementById("camouflage-screen");
+      if (hide) cam.classList.remove("hidden");
+      else cam.classList.add("hidden");
+    }
+
+    function stopSafely() {
+      sessionStorage.clear();
+      window.location.replace("https://www.google.com");
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        const cam = document.getElementById("camouflage-screen");
+        toggleQuickHide(cam.classList.contains("hidden"));
+      }
+    });
+
+    function switchAuthTab(tab) {
+      const loginForm = document.getElementById("form-login");
+      const regForm = document.getElementById("form-register");
+      const btnLogin = document.getElementById("btn-tab-login");
+      const btnReg = document.getElementById("btn-tab-register");
+      if (tab === "login") {
+        loginForm.classList.remove("hidden");
+        regForm.classList.add("hidden");
+        btnLogin.className = "py-2 text-sm font-bold rounded-lg bg-white text-indigo-600 shadow-sm transition cursor-pointer";
+        btnReg.className = "py-2 text-sm font-bold rounded-lg text-slate-500 hover:text-slate-700 transition cursor-pointer";
+      } else {
+        loginForm.classList.add("hidden");
+        regForm.classList.remove("hidden");
+        btnReg.className = "py-2 text-sm font-bold rounded-lg bg-white text-indigo-600 shadow-sm transition cursor-pointer";
+        btnLogin.className = "py-2 text-sm font-bold rounded-lg text-slate-500 hover:text-slate-700 transition cursor-pointer";
+      }
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const code = document.getElementById("reg-code").value.trim().toUpperCase();
+      const nickname = document.getElementById("reg-nickname").value.trim() || "Teman Hebat";
+      const password = document.getElementById("reg-password").value;
+      const confirm = document.getElementById("reg-confirm").value;
+      const errEl = document.getElementById("reg-error");
+
+      if (password !== confirm) {
+        errEl.textContent = "Konfirmasi password tidak cocok.";
+        errEl.classList.remove("hidden");
+        return;
+      }
+
+      const db = getUsersDB();
+      if (db[code]) {
+        errEl.textContent = "Kode Peserta sudah terdaftar. Silakan masuk menggunakan akun tersebut.";
+        errEl.classList.remove("hidden");
+        return;
+      }
+
+      errEl.classList.add("hidden");
+      db[code] = {
+        code, nickname, password,
+        alias: `Penjaga Batas #${Math.floor(100 + Math.random() * 899)}`,
+        unlockedStage: 1,
+        scores: { s1: null, s2: null, s3: null },
+        safetyCard: null, journalPin: null, journals: []
+      };
+      saveUsersDB(db);
+      startSession(code);
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const code = document.getElementById("login-code").value.trim().toUpperCase();
+      const password = document.getElementById("login-password").value;
+      const errEl = document.getElementById("login-error");
+      const db = getUsersDB();
+      if (!db[code] || db[code].password !== password) {
+        errEl.textContent = "Kode Peserta atau Password salah.";
+        errEl.classList.remove("hidden");
+        return;
+      }
+      errEl.classList.add("hidden");
+      startSession(code);
+    }
+
+    function loginDemoAccount() {
+      const db = getUsersDB();
+      if (!db["SMP5-001"]) {
+        db["SMP5-001"] = {
+          code: "SMP5-001", nickname: "Teman Hebat", password: "123",
+          alias: "Awan Pelindung #501", unlockedStage: 1,
+          scores: { s1: null, s2: null, s3: null },
+          safetyCard: null, journalPin: null, journals: []
+        };
+        saveUsersDB(db);
+      }
+      startSession("SMP5-001");
+    }
+
+    function startSession(code) {
+      const db = getUsersDB();
+      currentUser = db[code];
+      localStorage.setItem("groomtrack_active_code", code);
+
+      document.getElementById("auth-screen").classList.add("hidden");
+      document.getElementById("main-app").classList.remove("hidden");
+      document.getElementById("user-display-name").textContent = currentUser.nickname;
+      document.getElementById("user-display-code").textContent = currentUser.code;
+      document.getElementById("anon-alias-label").textContent = currentUser.alias;
+
+      checkLocalVideoAvailability();
+      renderQuizzes();
+      updateStageUI();
+      updateXPBar();
+      resetSimulation();
+      renderStories();
+      renderSafeCircleInHelp();
+    }
+
+    function logoutUser() {
+      localStorage.removeItem("groomtrack_active_code");
+      currentUser = null;
+      document.getElementById("main-app").classList.add("hidden");
+      document.getElementById("auth-screen").classList.remove("hidden");
+    }
+
+    function syncUserData() {
+      if (!currentUser) return;
+      const db = getUsersDB();
+      db[currentUser.code] = currentUser;
+      saveUsersDB(db);
+      updateXPBar();
+    }
+
+    function updateXPBar() {
+      let xp = 0;
+      if ((currentUser.scores.s1 || 0) >= 7) xp += 100;
+      if ((currentUser.scores.s2 || 0) >= 7) xp += 100;
+      if ((currentUser.scores.s3 || 0) >= 7) xp += 100;
+      const pct = Math.max(10, Math.round((xp / 300) * 100));
+      document.getElementById("xp-progress-bar").style.width = `${pct}%`;
+      const titles = { 0: "Penjelajah Awal", 100: "Sadar Batas (Realize)", 200: "Detektif Pola 5D (Recognize)", 300: "Duta Pelindung Diri 3R" };
+      document.getElementById("xp-level-label").textContent = `${titles[xp]} (${xp} / 300 XP)`;
+    }
+
+    function switchMainTab(tabName) {
+      ["modul", "cerita", "jurnal", "bantuan"].forEach((t) => {
+        document.getElementById(`view-${t}`).classList.add("hidden");
+        const navBtn = document.getElementById(`nav-${t}`);
+        if (t === "bantuan") {
+          navBtn.className = t === tabName
+            ? "bg-rose-600 text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer shadow-sm"
+            : "bg-rose-50 text-rose-700 hover:bg-rose-100 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer";
+        } else {
+          navBtn.className = t === tabName
+            ? "tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer"
+            : "bg-slate-100 text-slate-600 hover:bg-slate-200 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer";
+        }
+      });
+      document.getElementById(`view-${tabName}`).classList.remove("hidden");
+
+      if (tabName === "jurnal") {
+        const desc = document.getElementById("journal-pin-desc");
+        desc.textContent = currentUser.journalPin
+          ? "Masukkan PIN 4 digit kamu untuk membuka catatan harian."
+          : "Buat PIN 4 digit baru agar catatan harianmu tetap rahasia.";
+      }
+    }
+
+    function updateStageUI() {
+      const unlocked = currentUser.unlockedStage || 1;
+      for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById(`step-btn-${i}`);
+        const badge = document.getElementById(`badge-stage-${i}`);
+        if (i <= unlocked) {
+          btn.classList.remove("opacity-75", "bg-slate-50", "border-slate-200");
+          btn.classList.add("bg-white", "border-indigo-200");
+          badge.textContent = currentUser.scores[`s${i}`] >= 7 ? `✅ Lulus (${currentUser.scores[`s${i}`]}/10)` : "Terbuka";
+          badge.className = "text-xs font-bold text-emerald-600";
+        } else {
+          btn.classList.add("opacity-75", "bg-slate-50", "border-slate-200");
+          badge.textContent = "🔒 Terkunci";
+          badge.className = "text-xs font-bold text-slate-400";
+        }
+      }
+      selectStage(Math.min(unlocked, 3));
+    }
+
+    function selectStage(stageNum) {
+      if (stageNum > (currentUser.unlockedStage || 1)) {
+        alert(`Selesaikan kuis Tahap ${stageNum - 1} dengan skor minimal 7 benar terlebih dahulu untuk membuka Tahap ${stageNum}.`);
+        return;
+      }
+      [1, 2, 3].forEach((n) => {
+        document.getElementById(`stage-${n}-content`).classList.toggle("hidden", n !== stageNum);
+        const btn = document.getElementById(`step-btn-${n}`);
+        if (n === stageNum) btn.classList.add("border-indigo-600", "bg-indigo-50/70");
+        else btn.classList.remove("border-indigo-600", "bg-indigo-50/70");
+      });
+    }
+
+    function renderQuizItems(data, containerId, prefix) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = data.map((item, idx) => `
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <p class="font-bold text-slate-900 text-sm mb-2.5">${idx + 1}. ${item.q}</p>
+          <div class="space-y-1.5">
+            ${item.opts.map((opt, oIdx) => `
+              <label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white cursor-pointer text-sm text-slate-700">
+                <input type="radio" name="${prefix}-q-${idx}" value="${oIdx}" class="mt-1 accent-indigo-600">
+                <span>${String.fromCharCode(65 + oIdx)}. ${opt}</span>
+              </label>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderQuizzes() {
+      renderQuizItems(quiz1Data, "quiz-1-container", "q1");
+      renderQuizItems(quiz2Data, "quiz-2-container", "q2");
+      renderQuizItems(quiz3Data, "quiz-3-container", "q3");
+    }
+
+    function evaluateQuiz(data, prefix, stageNum, resultId) {
+      let score = 0;
+      for (let i = 0; i < data.length; i++) {
+        const chosen = document.querySelector(`input[name="${prefix}-q-${i}"]:checked`);
+        if (chosen && parseInt(chosen.value, 10) === data[i].ans) score++;
+      }
+
+      const resEl = document.getElementById(resultId);
+      currentUser.scores[`s${stageNum}`] = score;
+
+      if (score >= 7) {
+        if (stageNum < 3 && currentUser.unlockedStage <= stageNum) {
+          currentUser.unlockedStage = stageNum + 1;
+        }
+        syncUserData();
+        updateStageUI();
+        selectStage(stageNum);
+        resEl.className = "text-sm font-bold text-emerald-700 bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-200";
+        resEl.innerHTML = stageNum < 3
+          ? `Selamat! Skor Anda adalah ${score}/10. Anda lulus dan dapat melanjutkan ke Tahap ${stageNum + 1}! <button onclick="selectStage(${stageNum + 1})" class="ml-2 underline font-extrabold cursor-pointer">Lanjut Tahap ${stageNum + 1} →</button>`
+          : `Selamat! Skor Anda adalah ${score}/10. Silakan lengkapi My Safety Card di bawah ini!`;
+      } else {
+        syncUserData();
+        resEl.className = "text-sm font-bold text-rose-700 bg-rose-50 px-4 py-2 rounded-xl border border-rose-200";
+        resEl.textContent = `Skor Anda adalah ${score}/10. Diperlukan minimal 7 benar untuk lanjut. Silakan pelajari materi kembali dan ulangi kuis.`;
+      }
+    }
+
+    function submitQuiz1() { evaluateQuiz(quiz1Data, "q1", 1, "quiz-1-result"); }
+    function submitQuiz2() { evaluateQuiz(quiz2Data, "q2", 2, "quiz-2-result"); }
+    function submitQuiz3() { evaluateQuiz(quiz3Data, "q3", 3, "quiz-3-result"); }
+
+    function updateTrafficLight(color) {
+      const badge = document.getElementById("traffic-light-badge");
+      if (color === "green") {
+        badge.className = "px-4 py-2 rounded-xl bg-emerald-100 text-emerald-800 font-extrabold text-sm border border-emerald-300 flex items-center gap-2";
+        badge.innerHTML = "<span>🟢</span> Rambu: HIJAU (Normal)";
+      } else if (color === "yellow") {
+        badge.className = "px-4 py-2 rounded-xl bg-amber-100 text-amber-800 font-extrabold text-sm border border-amber-300 flex items-center gap-2";
+        badge.innerHTML = "<span>🟡</span> Rambu: KUNING (Waspada)";
+      } else {
+        badge.className = "px-4 py-2 rounded-xl bg-rose-100 text-rose-800 font-extrabold text-sm border border-rose-300 flex items-center gap-2 animate-pulse";
+        badge.innerHTML = "<span>🔴</span> Rambu: MERAH (Bahaya!)";
+      }
+    }
+
+    function resetSimulation() {
+      simIndex = 0;
+      const box = document.getElementById("sim-chat-box");
+      box.innerHTML = "";
+      renderSimStep();
+    }
+
+    function renderSimStep() {
+      const step = simSteps[simIndex];
+      const box = document.getElementById("sim-chat-box");
+      const optsBox = document.getElementById("sim-options-box");
+      document.getElementById("sim-progress-text").textContent = `Babak ${simIndex + 1} dari ${simSteps.length}`;
+      updateTrafficLight(step.light);
+
+      box.innerHTML += `
+        <div class="flex items-start gap-2.5 fade-in">
+          <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-bold shrink-0">RK</div>
+          <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 max-w-md text-sm text-slate-800">
+            <span class="block text-[10px] font-bold text-slate-400 mb-0.5">Raka (Kenalan Game)</span>
+            ${step.raka}
+          </div>
+        </div>
+      `;
+      box.scrollTop = box.scrollHeight;
+
+      optsBox.innerHTML = step.opts.map((o, idx) => `
+        <button onclick="chooseSimOption(${idx})" class="w-full text-left p-3 rounded-xl bg-indigo-50/60 hover:bg-indigo-100 border border-indigo-200 text-sm font-medium text-slate-800 transition cursor-pointer">
+          💬 ${o.text}
+        </button>
+      `).join("");
+    }
+
+    function chooseSimOption(optIdx) {
+      const step = simSteps[simIndex];
+      const chosen = step.opts[optIdx];
+      const box = document.getElementById("sim-chat-box");
+
+      box.innerHTML += `
+        <div class="flex justify-end fade-in">
+          <div class="bg-indigo-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm max-w-md text-sm">
+            ${chosen.text}
+          </div>
+        </div>
+      `;
+      updateTrafficLight(chosen.nextLight);
+
+      simIndex++;
+      if (simIndex < simSteps.length) {
+        setTimeout(renderSimStep, 350);
+      } else {
+        document.getElementById("sim-options-box").innerHTML = `
+          <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold">
+            ✅ Simulasi Selesai! Kamu berhasil melihat perubahan rambu dari Hijau → Kuning → Merah dan memutus jebakan dengan Jurus 4T.
+          </div>
+        `;
+        box.scrollTop = box.scrollHeight;
+      }
+    }
+
+    function completeProgram() {
+      const selected = Array.from(document.querySelectorAll(".safe-circle-cb:checked")).map((cb) => cb.value);
+      const details = [
+        document.getElementById("sc-name-parent").value,
+        document.getElementById("sc-name-sibling").value,
+        document.getElementById("sc-name-bestie").value,
+        document.getElementById("sc-name-teacher").value,
+        document.getElementById("sc-name-other").value
+      ].filter(Boolean);
+
+      currentUser.safetyCard = {
+        circle: selected,
+        names: details,
+        pledge: document.getElementById("sc-pledge").value.trim()
+      };
+      syncUserData();
+      renderSafeCircleInHelp();
+      document.getElementById("completion-banner").classList.remove("hidden");
+    }
+
+    function renderSafeCircleInHelp() {
+      const container = document.getElementById("help-safe-circle-list");
+      if (!currentUser || !currentUser.safetyCard) return;
+      const { circle, names, pledge } = currentUser.safetyCard;
+      container.innerHTML = `
+        <ul class="list-disc list-inside text-xs space-y-1 text-slate-700">
+          <li><strong>Pilihan Lingkaran Aman:</strong> ${circle.join(", ") || "Ibu / Ayah, Guru BK"}</li>
+          ${names.length ? `<li><strong>Nama Kontak Terdekat:</strong> ${names.join(", ")}</li>` : ""}
+          ${pledge ? `<li><strong>Janjiku:</strong> <em>"${pledge}"</em></li>` : ""}
+        </ul>
+      `;
+    }
+
+    function getStories() {
+      const saved = localStorage.getItem("groomtrack_stories");
+      if (!saved) {
+        localStorage.setItem("groomtrack_stories", JSON.stringify(defaultDummyStories));
+        return defaultDummyStories;
+      }
+      return JSON.parse(saved);
+    }
+
+    function saveStories(stories) { localStorage.setItem("groomtrack_stories", JSON.stringify(stories)); }
+
+    function renderStories() {
+      const stories = getStories();
+      const feed = document.getElementById("stories-feed");
+      feed.innerHTML = stories.map((st) => `
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-3 card-hover">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-extrabold text-xs flex items-center justify-center">🛡️</div>
+              <div>
+                <span class="font-bold text-slate-900 text-sm block leading-none">${st.author}</span>
+                <span class="text-[11px] text-slate-400">${st.time}</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-sm text-slate-700 leading-relaxed">${st.text}</p>
+          <div class="pt-2 border-t flex flex-wrap items-center gap-3">
+            <button onclick="toggleLikeStory(${st.id})" class="px-3 py-1.5 rounded-xl text-xs font-bold ${st.liked ? "bg-rose-100 text-rose-700" : "bg-slate-100 text-slate-600 hover:bg-rose-50"} transition cursor-pointer">
+              ❤️ ${st.likes} Peluk Hangat
+            </button>
+            <select onchange="addPresetComment(${st.id}, this)" class="text-xs bg-slate-100 text-slate-700 font-semibold px-3 py-1.5 rounded-xl outline-none cursor-pointer">
+              <option value="">💬 Kirim Dukungan Positif...</option>
+              ${presetSupportComments.map((c) => `<option value="${c}">${c}</option>`).join("")}
+            </select>
+          </div>
+          ${st.comments.length ? `
+            <div class="bg-slate-50 rounded-xl p-3 space-y-1.5">
+              ${st.comments.map((c) => `<div class="text-xs text-slate-600">🤍 ${c}</div>`).join("")}
+            </div>
+          ` : ""}
+        </div>
+      `).join("");
+    }
+
+    function postNewStory(e) {
+      e.preventDefault();
+      const input = document.getElementById("story-input");
+      const text = input.value.trim();
+      if (!text) return;
+      const stories = getStories();
+      stories.unshift({ id: Date.now(), author: currentUser.alias, time: "Baru saja", text, likes: 1, liked: true, comments: [] });
+      saveStories(stories);
+      input.value = "";
+      renderStories();
+    }
+
+    function toggleLikeStory(id) {
+      const stories = getStories();
+      const target = stories.find((s) => s.id === id);
+      if (target) {
+        target.liked = !target.liked;
+        target.likes += target.liked ? 1 : -1;
+        saveStories(stories);
+        renderStories();
+      }
+    }
+
+    function addPresetComment(id, selectEl) {
+      if (!selectEl.value) return;
+      const stories = getStories();
+      const target = stories.find((s) => s.id === id);
+      if (target) {
+        target.comments.push(selectEl.value);
+        saveStories(stories);
+        renderStories();
+      }
+    }
+
+    function unlockJournal() {
+      const pin = document.getElementById("journal-pin-input").value.trim();
+      const err = document.getElementById("journal-pin-error");
+      if (!/^\d{4}$/.test(pin)) {
+        err.textContent = "PIN harus berupa 4 digit angka.";
+        err.classList.remove("hidden");
+        return;
+      }
+      if (!currentUser.journalPin) {
+        currentUser.journalPin = pin;
+        syncUserData();
+      } else if (currentUser.journalPin !== pin) {
+        err.textContent = "PIN salah. Silakan coba lagi.";
+        err.classList.remove("hidden");
+        return;
+      }
+      err.classList.add("hidden");
+      document.getElementById("journal-pin-input").value = "";
+      document.getElementById("journal-pin-gate").classList.add("hidden");
+      document.getElementById("journal-main").classList.remove("hidden");
+      renderJournalEntries();
+    }
+
+    function lockJournal() {
+      document.getElementById("journal-main").classList.add("hidden");
+      document.getElementById("journal-pin-gate").classList.remove("hidden");
+    }
+
+    function selectMood(mood) {
+      selectedMood = mood;
+      document.querySelectorAll(".mood-btn").forEach((btn) => {
+        if (btn.textContent === mood) btn.className = "mood-btn px-3 py-1.5 rounded-xl border text-xs font-bold bg-indigo-50 border-indigo-500 text-indigo-700 cursor-pointer";
+        else btn.className = "mood-btn px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 cursor-pointer";
+      });
+    }
+
+    function saveJournalEntry(e) {
+      e.preventDefault();
+      const textEl = document.getElementById("journal-text");
+      const text = textEl.value.trim();
+      if (!text) return;
+      currentUser.journals.unshift({
+        id: Date.now(),
+        date: new Date().toLocaleDateString("id-ID", { weekday: "long", year: "numeric", month: "long", day: "numeric" }),
+        mood: selectedMood,
+        text
+      });
+      syncUserData();
+      textEl.value = "";
+      renderJournalEntries();
+    }
+
+    function renderJournalEntries() {
+      const list = document.getElementById("journal-entries-list");
+      if (!currentUser.journals.length) {
+        list.innerHTML = `<p class="text-center text-xs text-slate-400 py-4">Belum ada catatan jurnal. Mulai tulis perasaanmu hari ini!</p>`;
+        return;
+      }
+      list.innerHTML = currentUser.journals.map((j) => `
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="flex items-center justify-between text-xs mb-1.5">
+            <span class="font-bold text-violet-700">${j.mood}</span>
+            <span class="text-slate-400">${j.date}</span>
+          </div>
+          <p class="text-sm text-slate-700 whitespace-pre-line">${j.text}</p>
+        </div>
+      `).join("");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const activeCode = localStorage.getItem("groomtrack_active_code");
+      const db = getUsersDB();
+      if (activeCode && db[activeCode]) {
+        startSession(activeCode);
+      }
+    });
+  </script>
+</body>
+</html>
