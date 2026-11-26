@@ -18,10 +18,40 @@
     .star-twinkle { animation: twinkle 2s ease-in-out infinite; }
     .card-hover { transition: transform 0.22s ease, box-shadow 0.22s ease; }
     .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 24px -8px rgba(79, 70, 229, 0.16); }
-    .tab-active { background: linear-gradient(135deg, #4f46e5, #6366f1); color: #fff; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.28); }
+    .tab-active { background: linear-gradient(135deg, #ec4899 0%, #6366f1 55%, #0ea5e9 100%); color: #fff; box-shadow: 0 6px 16px rgba(99, 102, 241, 0.30); }
+    /* Rich N2K-inspired ambient multi-color background */
+    .groomtrack-bg {
+      background-color: #fdf4ff;
+      background-image:
+        radial-gradient(at 8% 12%, rgba(244, 114, 182, 0.24) 0px, transparent 48%),
+        radial-gradient(at 92% 10%, rgba(56, 189, 248, 0.26) 0px, transparent 48%),
+        radial-gradient(at 85% 55%, rgba(250, 204, 21, 0.22) 0px, transparent 45%),
+        radial-gradient(at 12% 72%, rgba(52, 211, 153, 0.24) 0px, transparent 48%),
+        radial-gradient(at 52% 95%, rgba(167, 139, 250, 0.22) 0px, transparent 50%),
+        linear-gradient(135deg, #fff1f7 0%, #eff6ff 35%, #fefce8 68%, #ecfdf5 100%);
+      background-attachment: fixed;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 via-indigo-50/30 to-teal-50/30 text-slate-800 min-h-screen flex flex-col">
+<body class="groomtrack-bg text-slate-800 min-h-screen flex flex-col relative overflow-x-hidden">
+  <!-- AMBIENT COLORFUL BLOBS (DECORATIVE BACKGROUND) -->
+  <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-pink-300/25 blur-3xl"></div>
+    <div class="absolute top-16 -right-24 w-96 h-96 rounded-full bg-sky-300/25 blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/3 w-80 h-80 rounded-full bg-amber-200/25 blur-3xl"></div>
+    <div class="absolute -bottom-24 right-1/4 w-96 h-96 rounded-full bg-emerald-300/25 blur-3xl"></div>
+  </div>
+
 
   <!-- STICKY SAFETY BAR (QUICK HIDE & STOP SAFELY) -->
   <div id="safety-bar" class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur text-white px-4 py-2 shadow-md border-b border-slate-700">
@@ -83,8 +113,8 @@
 
   <!-- AUTH SCREEN (DAFTAR & MASUK) -->
   <div id="auth-screen" class="flex-1 flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden fade-in">
-      <div class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-teal-600 p-6 text-white text-center">
+    <div class="max-w-md w-full glass-card rounded-3xl shadow-2xl border-2 border-white/80 overflow-hidden fade-in">
+      <div class="bg-gradient-to-r from-pink-600 via-indigo-600 to-sky-500 p-6 text-white text-center">
         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm text-3xl mb-3 shadow-inner">🦉</div>
         <h1 class="text-2xl font-extrabold tracking-tight text-white">GROOMTRACK</h1>
         <p class="text-teal-100 text-[11px] font-bold tracking-wider uppercase mt-1">Grooming Pattern Tracking and Recognition</p>
@@ -142,7 +172,7 @@
   <!-- MAIN APP SCREEN -->
   <div id="main-app" class="hidden flex-1 flex flex-col">
     <!-- NAVBAR -->
-    <header class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-[44px] sm:top-[48px] z-40">
+    <header class="glass-nav border-b border-pink-200/70 shadow-xs sticky top-[44px] sm:top-[48px] z-40">
       <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-2.5">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-teal-500 text-white flex items-center justify-center font-extrabold text-xl shadow-sm">🛡️</div>
@@ -166,7 +196,7 @@
     <main class="max-w-5xl w-full mx-auto px-4 py-6 flex-1">
 
       <!-- XP PROGRESS BAR -->
-      <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="glass-card rounded-2xl p-4 shadow-sm border border-indigo-200/70 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <span class="text-2xl">⭐</span>
           <div>
@@ -182,7 +212,7 @@
       <!-- ==================== TAB 1: MODUL 3R ==================== -->
       <section id="view-modul" class="space-y-6 fade-in">
         <!-- Stage Stepper -->
-        <div class="grid grid-cols-3 gap-2 sm:gap-4 bg-white p-3 rounded-2xl shadow-sm border border-slate-200">
+        <div class="grid grid-cols-3 gap-2 sm:gap-4 glass-card p-3 rounded-2xl shadow-sm border border-pink-200/70">
           <button onclick="selectStage(1)" id="step-btn-1" class="p-3 rounded-xl text-left border-2 border-indigo-600 bg-indigo-50 transition cursor-pointer">
             <div class="flex items-center justify-between">
               <span class="text-[11px] font-extrabold uppercase text-indigo-600">Tahap 1</span>
@@ -214,7 +244,7 @@
         <!-- STAGE 1: REALIZE -->
         <div id="stage-1-content" class="space-y-6">
           <!-- Bagian 1: Berita -->
-          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 card-hover">
+          <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90 card-hover">
             <span class="inline-block px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-extrabold mb-3">Bagian 1 • Studi Kasus Nyata</span>
             <h2 class="text-xl font-extrabold text-slate-900">Pilu Siswi SMP di Sukabumi Jadi Korban Dugaan <em>Child Grooming</em></h2>
             <p class="text-sm text-slate-600 mt-3 leading-relaxed">
@@ -235,7 +265,7 @@
           </div>
 
           <!-- Bagian 2: Video Lokal & Kartu Lirik Berilustrasi -->
-          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 card-hover">
+          <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90 card-hover">
             <span class="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-extrabold mb-3">Bagian 2 • Lagu Pengingat & Bedah Lirik Utuh</span>
             <h2 class="text-xl font-extrabold text-slate-900 mb-3">Lagu Pengingat Batas Diri: "Ini Area Privasiku"</h2>
 
@@ -353,7 +383,7 @@
           </div>
 
           <!-- Bagian 4: Kuis Tahap 1 -->
-          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b">
               <div>
                 <span class="text-xs font-extrabold uppercase text-indigo-600">Evaluasi Tahap 1</span>
@@ -372,7 +402,7 @@
         <!-- STAGE 2: RECOGNIZE -->
         <div id="stage-2-content" class="hidden space-y-6">
           <!-- Simulasi Chat Raka -->
-          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90">
             <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b">
               <div>
                 <span class="text-xs font-extrabold uppercase text-indigo-600">Bagian 1 • Simulasi Interaktif</span>
@@ -393,7 +423,7 @@
           </div>
 
           <!-- Perpustakaan Pola 5D -->
-          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90">
             <span class="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-extrabold mb-3">Bagian 2 • Perpustakaan Pola 5D (Online & Offline)</span>
             <h2 class="text-xl font-extrabold text-slate-900 mb-3">5 Tahapan Jebakan Pelaku <em>Child Grooming</em></h2>
             <div class="hidden md:block overflow-x-auto">
@@ -446,7 +476,7 @@
           </div>
 
           <!-- Kuis Tahap 2 -->
-          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b">
               <div>
                 <span class="text-xs font-extrabold uppercase text-indigo-600">Evaluasi Tahap 2</span>
@@ -465,7 +495,7 @@
         <!-- STAGE 3: RESPOND -->
         <div id="stage-3-content" class="hidden space-y-6">
           <!-- Materi Jurus 4T -->
-          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90">
             <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold mb-3">Bagian 1 • Jurus 4T (Online & Offline)</span>
             <h2 class="text-xl font-extrabold text-slate-900 mb-3">Memutus Jebakan dengan Jurus 4T: Tolak • Tandai • Tutup • Terbuka</h2>
             <div class="grid sm:grid-cols-2 gap-4 text-sm">
@@ -489,7 +519,7 @@
           </div>
 
           <!-- 3 Contoh Simulasi Terbimbing -->
-          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90">
             <span class="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-extrabold mb-3">Bagian 2 • 3 Contoh Penerapan Jurus 4T</span>
             <div class="space-y-3 text-sm">
               <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-200">
@@ -505,7 +535,7 @@
           </div>
 
           <!-- Kuis Menjodohkan Tahap 3 -->
-          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b">
               <div>
                 <span class="text-xs font-extrabold uppercase text-indigo-600">Evaluasi Tahap 3</span>
@@ -579,7 +609,7 @@
 
       <!-- ==================== TAB 2: RUANG CERITA ==================== -->
       <section id="view-cerita" class="hidden space-y-6 fade-in">
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90">
           <div class="flex items-center justify-between mb-2">
             <h2 class="text-xl font-extrabold text-slate-900">💬 Ruang Cerita Aman</h2>
             <span class="text-xs font-bold bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full">Identitas Anonim Terlindungi</span>
@@ -612,7 +642,7 @@
         </div>
 
         <div id="journal-main" class="hidden space-y-6">
-          <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90">
             <div class="flex items-center justify-between mb-4">
               <div>
                 <h2 class="text-xl font-extrabold text-slate-900">📔 Dear Diary — Ruang Refleksi Pribadi</h2>
