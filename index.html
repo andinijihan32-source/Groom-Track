@@ -630,25 +630,26 @@
 
       <!-- ==================== TAB 3: JURNALKU ==================== -->
       <section id="view-jurnal" class="hidden space-y-6 fade-in">
-        <div id="journal-pin-gate" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 max-w-md mx-auto text-center">
+        <div id="journal-pin-gate" class="hidden glass-card rounded-2xl p-8 shadow-sm border border-white/90 max-w-md mx-auto text-center">
           <div class="w-12 h-12 rounded-2xl bg-violet-100 text-violet-700 flex items-center justify-center text-2xl mx-auto mb-3">🔐</div>
-          <h2 class="text-lg font-extrabold text-slate-900">Jurnalku (100% Privat)</h2>
-          <p id="journal-pin-desc" class="text-xs text-slate-500 mt-1 mb-4">Buat PIN 4 digit agar catatan harianmu tetap rahasia dan hanya bisa dibuka olehmu.</p>
+          <h2 class="text-lg font-extrabold text-slate-900">Jurnalku Terkunci</h2>
+          <p id="journal-pin-desc" class="text-xs text-slate-500 mt-1 mb-4">Masukkan PIN 4 digit yang kamu buat untuk membuka catatan harianmu.</p>
           <input type="password" id="journal-pin-input" maxlength="4" pattern="[0-9]*" inputmode="numeric" placeholder="••••" class="w-36 text-center tracking-[0.5em] font-extrabold text-xl py-2.5 rounded-xl border border-slate-300 focus:border-violet-500 outline-none mb-3" />
           <p id="journal-pin-error" class="hidden text-xs text-rose-600 mb-2"></p>
-          <div>
+          <div class="flex items-center justify-center gap-2">
             <button onclick="unlockJournal()" class="bg-violet-600 hover:bg-violet-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer">Buka Jurnalku</button>
+            <button id="btn-cancel-pin" onclick="cancelSetPin()" class="hidden bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2.5 rounded-xl text-sm transition cursor-pointer">Batal</button>
           </div>
         </div>
 
-        <div id="journal-main" class="hidden space-y-6">
+        <div id="journal-main" class="space-y-6">
           <div class="glass-card rounded-2xl p-6 shadow-sm border border-white/90">
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
               <div>
                 <h2 class="text-xl font-extrabold text-slate-900">📔 Dear Diary — Ruang Refleksi Pribadi</h2>
-                <p class="text-xs text-slate-500">Catatan ini hanya tersimpan di perangkat dan akunmu sendiri.</p>
+                <p class="text-xs text-slate-500">Langsung tulis ceritamu dengan nyaman. Catatan ini hanya tersimpan di perangkat dan akunmu sendiri.</p>
               </div>
-              <button onclick="lockJournal()" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg cursor-pointer">🔒 Kunci Jurnal</button>
+              <button id="btn-journal-lock" onclick="lockJournal()" class="text-xs font-bold bg-violet-50 hover:bg-violet-100 text-violet-700 border border-violet-200 px-3 py-1.5 rounded-lg cursor-pointer">🔒 Pasang PIN Privasi (Opsional)</button>
             </div>
 
             <form onsubmit="saveJournalEntry(event)" class="space-y-4">
@@ -1030,10 +1031,18 @@
       document.getElementById(`view-${tabName}`).classList.remove("hidden");
 
       if (tabName === "jurnal") {
-        const desc = document.getElementById("journal-pin-desc");
-        desc.textContent = currentUser.journalPin
-          ? "Masukkan PIN 4 digit kamu untuk membuka catatan harian."
-          : "Buat PIN 4 digit baru agar catatan harianmu tetap rahasia.";
+        const lockBtn = document.getElementById("btn-journal-lock");
+        if (currentUser.journalPin && currentUser.journalLocked) {
+          document.getElementById("journal-main").classList.add("hidden");
+          document.getElementById("journal-pin-gate").classList.remove("hidden");
+          document.getElementById("btn-cancel-pin").classList.add("hidden");
+          document.getElementById("journal-pin-desc").textContent = "Masukkan PIN 4 digit kamu untuk membuka catatan harian.";
+        } else {
+          document.getElementById("journal-pin-gate").classList.add("hidden");
+          document.getElementById("journal-main").classList.remove("hidden");
+          lockBtn.textContent = currentUser.journalPin ? "🔒 Kunci Jurnal" : "🔒 Pasang PIN Privasi (Opsional)";
+          renderJournalEntries();
+        }
       }
     }
 
@@ -1318,22 +1327,43 @@
       }
       if (!currentUser.journalPin) {
         currentUser.journalPin = pin;
+        currentUser.journalLocked = false;
         syncUserData();
       } else if (currentUser.journalPin !== pin) {
         err.textContent = "PIN salah. Silakan coba lagi.";
         err.classList.remove("hidden");
         return;
+      } else {
+        currentUser.journalLocked = false;
+        syncUserData();
       }
       err.classList.add("hidden");
       document.getElementById("journal-pin-input").value = "";
       document.getElementById("journal-pin-gate").classList.add("hidden");
       document.getElementById("journal-main").classList.remove("hidden");
+      document.getElementById("btn-journal-lock").textContent = "🔒 Kunci Jurnal";
       renderJournalEntries();
     }
 
     function lockJournal() {
+      document.getElementById("journal-pin-error").classList.add("hidden");
+      document.getElementById("journal-pin-input").value = "";
       document.getElementById("journal-main").classList.add("hidden");
       document.getElementById("journal-pin-gate").classList.remove("hidden");
+      if (!currentUser.journalPin) {
+        document.getElementById("journal-pin-desc").textContent = "Buat PIN 4 digit baru jika kamu ingin mengunci catatan harianmu.";
+        document.getElementById("btn-cancel-pin").classList.remove("hidden");
+      } else {
+        currentUser.journalLocked = true;
+        syncUserData();
+        document.getElementById("journal-pin-desc").textContent = "Masukkan PIN 4 digit kamu untuk membuka catatan harian.";
+        document.getElementById("btn-cancel-pin").classList.add("hidden");
+      }
+    }
+
+    function cancelSetPin() {
+      document.getElementById("journal-pin-gate").classList.add("hidden");
+      document.getElementById("journal-main").classList.remove("hidden");
     }
 
     function selectMood(mood) {
